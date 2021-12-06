@@ -6,7 +6,7 @@
 #define LINALG_GRAPHPLOTTER_H
 
 #include <SDL_render.h>
-#include "../MathsVector.h"
+#include "../algebra/MathsVector.h"
 
 class GraphPlotter {
 public:

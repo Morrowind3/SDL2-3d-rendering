@@ -3,7 +3,7 @@
 #include "SDL.h"
 #undef main
 
-#include "view/GraphPlotter.h"
+#include "src/view/GraphPlotter.h"
 
 #define SCREEN_WIDTH    1200
 #define SCREEN_HEIGHT   1200

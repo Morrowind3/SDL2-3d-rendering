@@ -4,7 +4,11 @@ project(LinAlg)
 include_directories(external/include)
 link_directories(external/lib/x86)
 
-add_executable(LinAlg Main.cpp view/GraphPlotter.cpp MathsVector.cpp MathsVector.h)
+set(VIEW src/view/GraphPlotter.cpp)
+set(SOURCE  src/algebra/MathsVector.cpp src/algebra/MathsVector.h src/algebra/Matrix.cpp InvalidMatrixDimensionsException.h)
+add_executable(LinAlg Main.cpp ${SOURCE} ${VIEW})
+add_executable(Tests tests/AlgebraTests.cpp ${SOURCE})
+
 target_link_libraries(LinAlg PRIVATE SDL2)
 
 
