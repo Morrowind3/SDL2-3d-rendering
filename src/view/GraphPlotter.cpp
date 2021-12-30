@@ -1,6 +1,30 @@
 #include <iostream>
 #include "GraphPlotter.h"
+#include "../algebra/Matrix.h"
 
+
+void GraphPlotter::drawMatrix(Matrix matrix, float scale){
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+    std::vector<std::pair<int, float>> drawnForRow;
+    float drawPosX = centerX;
+    float drawPosY = centerY;
+    for(int i = 0; i < matrix.getHeight(); ++i){
+        for(const auto& val : matrix.getRow(i)){
+            drawPosX += scale;
+            if(val == 1){
+                drawnForRow.emplace_back(std::make_pair(i,drawPosX));
+                for(const auto& lastRowPoint : drawnForRow){
+                    if(lastRowPoint.first == i-1){
+                        SDL_RenderDrawLineF(renderer, lastRowPoint.second, drawPosY - scale, drawPosX, drawPosY);
+                    }
+                }
+            }
+        }
+        drawPosY += scale;
+        drawPosX = centerX;
+    }
+}
 
 void GraphPlotter::drawVector(MathsVector vector) {
     int red, green, blue, alpha;

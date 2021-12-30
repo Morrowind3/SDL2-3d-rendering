@@ -7,6 +7,7 @@
 
 #include <SDL_render.h>
 #include "../algebra/MathsVector.h"
+#include "../algebra/Matrix.h"
 
 class GraphPlotter {
 public:
@@ -15,6 +16,7 @@ public:
     void drawGrid(float width, float height, float dimension);
     void drawAxis(float width, float height, float guideMarkDistance);
     void drawVector(MathsVector vector);
+    void drawMatrix(Matrix matrix, float scale);
 private:
     void drawAxis(float x, float y, float width, float height, float guideMarkDistance);
 

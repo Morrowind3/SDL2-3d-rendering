@@ -61,8 +61,12 @@ int main(int argc, char *args[])
     GraphPlotter plotter(renderer);
     plotter.setCenter(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
-    MathsVector A(180,180, "FFFB00FF");
-    MathsVector B(-120,140, "FF0000FF");
+//    MathsVector A(180,180, "FFFB00FF");
+//    MathsVector B(-120,140, "FF0000FF");
+    Matrix A { {{0, 0, 1, 0, 0},
+                       {0, 1, 0, 1, 0},
+                       {0, 1, 1, 1, 0},
+                       {1, 0, 0, 0, 1}}};
 
     while(!quit)
     {
@@ -71,11 +75,10 @@ int main(int argc, char *args[])
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
         plotter.drawGrid(40,40,1200);
-        plotter.drawAxis( 400, 400, 20);
-        plotter.drawVector(A);
-        plotter.drawVector(B);
-        plotter.drawVector(A+B);
-        plotter.drawVector(A-B);
+//        plotter.drawAxis( 400, 400, 20);
+
+        plotter.drawMatrix(A, 80);
+
 
         SDL_RenderPresent(renderer);
     }

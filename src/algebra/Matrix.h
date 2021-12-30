@@ -18,7 +18,7 @@ public:
 
     Matrix operator+ (const Matrix& vector) const;
     Matrix operator- (const Matrix& vector);
-    Matrix operator* (const Matrix& matrix);
+    Matrix operator* (const Matrix& other);
     Matrix operator* (const MathsVector& vector);
     std::vector<float>& operator[](int pos);
     std::vector<float> operator[](int pos) const;
@@ -27,8 +27,8 @@ public:
     int getWidth() const;
     int getHeight() const;
     void resize(int columns, int rows);
-private:
     std::vector<float> getRow(int row);
+private:
     std::vector<FloatVector> matrix;
 };
 

@@ -14,14 +14,13 @@ Matrix::Matrix(int columns, int rows) {
 }
 
 Matrix::Matrix(const std::vector<FloatVector>& content) {
-    matrix.resize(content.size(), FloatVector(content[0].size()));
-    int column = 0;
-    for(const auto& xVector : content){
-        int row = 0;
-        for(auto rowVal: xVector ){
-            matrix[row++][column] = rowVal;
+    matrix.resize(content[0].size(), FloatVector(content.size()));
+
+    //rotate readable data to workable data
+    for(int row = 0; row < content[0].size(); ++row){
+        for(int column = 0 ; column < content.size(); ++column){
+            matrix[row][column] = content[column][row];
         }
-        column++;
     }
 }
 
@@ -49,17 +48,17 @@ Matrix Matrix::operator-(const Matrix& other) {
     return newMatrix;
 }
 
-Matrix Matrix::operator*(const Matrix& _matrix) {
-    if(getWidth() != _matrix.getHeight()) throwDimensionError("Multiplying Matrix of width " + std::to_string(getWidth()) + "with Matrix of height" + std::to_string(_matrix.getHeight()) );
+Matrix Matrix::operator*(const Matrix& other) {
+    if(getWidth() != other.getHeight()) throwDimensionError("Multiplying Matrix of width " + std::to_string(getWidth()) + "with Matrix of height" + std::to_string(other.getHeight()) );
 
-    Matrix newMatrix{getHeight(), _matrix.getWidth()};
-    for(int i = 0; i < _matrix.getWidth(); ++i)
+    Matrix newMatrix{getHeight(), other.getWidth()};
+    for(int i = 0; i < other.getWidth(); ++i)
     {
         for(int j = 0; j < getHeight(); ++j)
         {
             for(int k = 0; k < getWidth(); ++k)
             {
-                newMatrix[i][j] += matrix[k][j] * _matrix[i][k];
+                newMatrix[i][j] += matrix[k][j] * other[i][k];
             }
         }
     }
