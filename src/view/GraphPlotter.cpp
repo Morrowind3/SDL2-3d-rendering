@@ -3,25 +3,44 @@
 #include "../algebra/Matrix.h"
 
 
-void GraphPlotter::drawMatrix(Matrix matrix, float scale){
+void GraphPlotter::drawMatrix(Matrix matrix, float pointDistance){
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-
     std::vector<std::pair<int, float>> drawnForRow;
     float drawPosX = centerX;
-    float drawPosY = centerY;
+    float drawPosY = centerY - pointDistance*(matrix.getHeight()-1);
+
+    short emptyRows = 0;
     for(int i = 0; i < matrix.getHeight(); ++i){
-        for(const auto& val : matrix.getRow(i)){
-            drawPosX += scale;
+        bool rowFilled = false;
+        float lastRowPos = '\0';
+        for(const float& val : matrix.getRow(i)){
             if(val == 1){
+                rowFilled = true;
+
+                //horizontal lines
+                if(lastRowPos == '\0'){
+                    lastRowPos = drawPosX;
+                } else {
+                    SDL_RenderDrawLineF(renderer, lastRowPos, drawPosY, drawPosX, drawPosY);
+                    lastRowPos = drawPosX;
+                }
+
+                //vertical lines
                 drawnForRow.emplace_back(std::make_pair(i,drawPosX));
                 for(const auto& lastRowPoint : drawnForRow){
-                    if(lastRowPoint.first == i-1){
-                        SDL_RenderDrawLineF(renderer, lastRowPoint.second, drawPosY - scale, drawPosX, drawPosY);
+                    if(lastRowPoint.first == i - 1 - emptyRows){
+                        SDL_RenderDrawLineF(renderer, lastRowPoint.second, drawPosY - pointDistance*(emptyRows+1), drawPosX, drawPosY);
                     }
                 }
             }
+            drawPosX += pointDistance;
         }
-        drawPosY += scale;
+        if(!rowFilled){
+            emptyRows++;
+        }  else {
+            emptyRows = 0;
+        }
+        drawPosY += pointDistance;
         drawPosX = centerX;
     }
 }

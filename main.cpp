@@ -34,6 +34,8 @@ SDL_Window* launch_window(){
 }
 
 SDL_Renderer* launch_renderer(SDL_Window* window) {
+
+
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         std::cout << "Renderer could not be created!" << std::endl
@@ -63,9 +65,10 @@ int main(int argc, char *args[])
 
 //    MathsVector A(180,180, "FFFB00FF");
 //    MathsVector B(-120,140, "FF0000FF");
-    Matrix A { {{0, 0, 1, 0, 0},
-                       {0, 1, 0, 1, 0},
-                       {0, 1, 1, 1, 0},
+    Matrix A { {{1, 0, 0, 0, 1},
+                       {0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0},
+                       {0, 0, 0, 0, 0},
                        {1, 0, 0, 0, 1}}};
 
     while(!quit)
@@ -75,9 +78,9 @@ int main(int argc, char *args[])
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
         plotter.drawGrid(40,40,1200);
-//        plotter.drawAxis( 400, 400, 20);
+        plotter.drawAxis( 400, 400, 20);
 
-        plotter.drawMatrix(A, 80);
+        plotter.drawMatrix(A, 20);
 
 
         SDL_RenderPresent(renderer);
