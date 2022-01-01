@@ -1,59 +1,60 @@
 #include <iostream>
+#include <utility>
 #include "GraphPlotter.h"
 #include "../algebra/Matrix.h"
 
+/* Geheugensteuntje
+ * Matrix format
+ *  x1 x2 x3 ....
+ *  y1 y2 y3 ....
+ *  1  1  1
+ *
+ *  Hierbij zit het volledige object in één matrix. Daarop roep je een bepaalde transformatiematrix op
+ *
+ *  Rendering: Elke waypoint verbind met de volgende waypoint. Laatste weer naar de eerste.
+ *  Remember: Gaten in een model, vooral bij 2D, wordt vaak met een transparante texture gedaan, dus dit is prima.
+ *
+ */
 
-void GraphPlotter::drawMatrix(Matrix matrix, float pointDistance){
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    std::vector<std::pair<int, float>> drawnForRow;
-    float drawPosX = centerX;
-    float drawPosY = centerY - pointDistance*(matrix.getHeight()-1);
 
-    short emptyRows = 0;
-    for(int i = 0; i < matrix.getHeight(); ++i){
-        bool rowFilled = false;
-        float lastRowPos = '\0';
-        for(const float& val : matrix.getRow(i)){
-            if(val == 1){
-                rowFilled = true;
-
-                //horizontal lines
-                if(lastRowPos == '\0'){
-                    lastRowPos = drawPosX;
-                } else {
-                    SDL_RenderDrawLineF(renderer, lastRowPos, drawPosY, drawPosX, drawPosY);
-                    lastRowPos = drawPosX;
-                }
-
-                //vertical lines
-                drawnForRow.emplace_back(std::make_pair(i,drawPosX));
-                for(const auto& lastRowPoint : drawnForRow){
-                    if(lastRowPoint.first == i - 1 - emptyRows){
-                        SDL_RenderDrawLineF(renderer, lastRowPoint.second, drawPosY - pointDistance*(emptyRows+1), drawPosX, drawPosY);
-                    }
-                }
-            }
-            drawPosX += pointDistance;
-        }
-        if(!rowFilled){
-            emptyRows++;
-        }  else {
-            emptyRows = 0;
-        }
-        drawPosY += pointDistance;
-        drawPosX = centerX;
-    }
+void GraphPlotter::drawMatrix(const Matrix& matrix){
+    drawMatrix(matrix, MathsVector{centerX, centerY});
 }
 
-void GraphPlotter::drawVector(MathsVector vector) {
+void GraphPlotter::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+    std::vector<MathsVector> vectors = extractVectors(matrix);
+
+    for(int i = 1; i < vectors.size(); ++i){
+        float prevCenterAdjustedX = origin.getX() + vectors[i-1].getX();
+        float prevCenterAdjustedY = origin.getY() - vectors[i-1].getY();
+        float centerAdjustedX = origin.getX() + vectors[i].getX();
+        float centerAdjustedY = origin.getY() - vectors[i].getY();
+        SDL_RenderDrawLineF(renderer, prevCenterAdjustedX, prevCenterAdjustedY, centerAdjustedX, centerAdjustedY);
+    }
+    //connect last with first
+    SDL_RenderDrawLineF(renderer, origin.getX() + vectors[vectors.size()-1].getX(),
+                        origin.getY() - vectors[vectors.size()-1].getY(),
+                        origin.getX() + vectors[0].getX(),
+                        origin.getY() - vectors[0].getY());
+}
+
+
+
+void GraphPlotter::drawVector(MathsVector vector, const MathsVector& origin) {
     int red, green, blue, alpha;
     sscanf_s(vector.getColour().c_str(), "%02x%02x%02x%02x", &red, &green, &blue, &alpha);
     SDL_SetRenderDrawColor(renderer, red, green, blue, alpha);
 
-    float centerAdjustedX = (centerX + vector.getX());
-    float centerAdjustedY = (centerY - vector.getY());
+    float centerAdjustedX = origin.getX() + vector.getX();
+    float centerAdjustedY = origin.getY() - vector.getY();
 
-    SDL_RenderDrawLineF(renderer, centerX, centerY, centerAdjustedX, centerAdjustedY);
+    SDL_RenderDrawLineF(renderer, origin.getX(), origin.getY(), centerAdjustedX, centerAdjustedY);
+}
+
+void GraphPlotter::drawVector(MathsVector vector) {
+    drawVector(std::move(vector), MathsVector{centerX, centerY});
 }
 
 void GraphPlotter::drawAxis(float width, float height, float guideMarkDistance) {
@@ -104,4 +105,14 @@ void GraphPlotter::setCenter(float x, float y) {
     centerX = x;
     centerY = y;
 }
+
+std::vector<MathsVector> GraphPlotter::extractVectors(const Matrix& matrix) {
+    std::vector<MathsVector> vectors;
+    vectors.reserve(matrix.getWidth());
+    for(int vector = 0; vector < matrix.getWidth(); ++vector){
+        vectors.emplace_back(MathsVector{matrix[vector][0], matrix[vector][1]});
+    }
+    return vectors;
+}
+
 

@@ -1,7 +1,3 @@
-//
-// Created by Morrowind3 on 25/11/2021.
-//
-
 #include "Matrix.h"
 
 #include <utility>

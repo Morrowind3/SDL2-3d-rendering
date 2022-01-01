@@ -65,11 +65,9 @@ int main(int argc, char *args[])
 
 //    MathsVector A(180,180, "FFFB00FF");
 //    MathsVector B(-120,140, "FF0000FF");
-    Matrix A { {{1, 0, 0, 0, 1},
-                       {0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0},
-                       {0, 0, 0, 0, 0},
-                       {1, 0, 0, 0, 1}}};
+    Matrix A { {{0, 20, 30, 40, 60, 40, 30, 20},
+                       {30, 40, 60, 40, 30, 20, 0, 20},
+                       {1, 1, 1, 1, 1, 1, 1, 1}}};
 
     while(!quit)
     {
@@ -80,7 +78,7 @@ int main(int argc, char *args[])
         plotter.drawGrid(40,40,1200);
         plotter.drawAxis( 400, 400, 20);
 
-        plotter.drawMatrix(A, 20);
+        plotter.drawMatrix(A);
 
 
         SDL_RenderPresent(renderer);

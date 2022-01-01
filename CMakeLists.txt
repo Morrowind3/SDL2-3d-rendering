@@ -5,7 +5,7 @@ include_directories(external/include)
 link_directories(external/lib/x86)
 
 set(VIEW src/view/GraphPlotter.cpp)
-set(SOURCE  src/algebra/MathsVector.cpp src/algebra/MathsVector.h src/algebra/Matrix.cpp InvalidMatrixDimensionsException.h)
+set(SOURCE  src/algebra/MathsVector.cpp src/algebra/MathsVector.h src/algebra/Matrix.cpp InvalidMatrixDimensionsException.h src/algebra/Transformation.cpp src/algebra/Transformation.h)
 add_executable(LinAlg Main.cpp ${SOURCE} ${VIEW})
 add_executable(Tests tests/AlgebraTests.cpp ${SOURCE})
 

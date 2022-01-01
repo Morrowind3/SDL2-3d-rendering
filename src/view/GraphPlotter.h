@@ -16,9 +16,13 @@ public:
     void drawGrid(float width, float height, float dimension);
     void drawAxis(float width, float height, float guideMarkDistance);
     void drawVector(MathsVector vector);
-    void drawMatrix(Matrix matrix, float scale);
+    void drawVector(MathsVector vector, const MathsVector& origin);
+    void drawMatrix(const Matrix& matrix);
+    void drawMatrix(const Matrix& matrix, const MathsVector& origin);
+
 private:
     void drawAxis(float x, float y, float width, float height, float guideMarkDistance);
+    std::vector<MathsVector> extractVectors(const Matrix& matrix);
 
     SDL_Renderer* renderer;
     float centerX = 0;
