@@ -47,7 +47,7 @@ Matrix Matrix::operator-(const Matrix& other) {
 Matrix Matrix::operator*(const Matrix& other) {
     if(getWidth() != other.getHeight()) throwDimensionError("Multiplying Matrix of width " + std::to_string(getWidth()) + "with Matrix of height" + std::to_string(other.getHeight()) );
 
-    Matrix newMatrix{getHeight(), other.getWidth()};
+    Matrix newMatrix{other.getWidth(), getHeight()};
     for(int i = 0; i < other.getWidth(); ++i)
     {
         for(int j = 0; j < getHeight(); ++j)

@@ -4,6 +4,7 @@
 #undef main
 
 #include "src/view/GraphPlotter.h"
+#include "src/algebra/Transform.h"
 
 #define SCREEN_WIDTH    1200
 #define SCREEN_HEIGHT   1200
@@ -65,9 +66,16 @@ int main(int argc, char *args[])
 
 //    MathsVector A(180,180, "FFFB00FF");
 //    MathsVector B(-120,140, "FF0000FF");
-    Matrix A { {{0, 20, 30, 40, 60, 40, 30, 20},
-                       {30, 40, 60, 40, 30, 20, 0, 20},
-                       {1, 1, 1, 1, 1, 1, 1, 1}}};
+//    Matrix A { {{0, 20, 30, 40, 60, 40, 30, 20},
+//                       {30, 40, 60, 40, 30, 20, 0, 20},
+//                       {1, 1, 1, 1, 1, 1, 1, 1}}};
+
+    Matrix A { {{30, 50, 50, 30},
+                       {50, 50, 30, 30},
+                       {1, 1, 1, 1}}};
+    Transform t;
+    t.scaleFrom({4,4}, 40, 40);
+    t.apply(A);
 
     while(!quit)
     {
@@ -75,11 +83,10 @@ int main(int argc, char *args[])
         processEvents(e);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
-        plotter.drawGrid(40,40,1200);
+        plotter.drawGrid(20,20,1200);
         plotter.drawAxis( 400, 400, 20);
 
         plotter.drawMatrix(A);
-
 
         SDL_RenderPresent(renderer);
     }
