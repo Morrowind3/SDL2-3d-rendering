@@ -14,7 +14,9 @@ public:
     Transform() = default;
     void apply(Matrix& matrix);
     std::shared_ptr<Matrix> getTransformationMatrix();
-    void scaleFrom(const MathsVector& scalar, float originX, float originY);
+    void rotate(double degrees, double originX, double originY);
+    void rotate(double degrees);
+    void scale(const MathsVector& scalar, float originX, float originY);
     void scale(const MathsVector& scalar);
     void translate(const MathsVector& movement);
 private:

@@ -76,7 +76,7 @@ Matrix Matrix::operator*(const MathsVector& vector) {
     return newMatrix;
 }
 
-float& Matrix::getAt(int x, int y) {
+double& Matrix::getAt(int x, int y) {
     return matrix[x][y];
 }
 
@@ -109,16 +109,16 @@ void Matrix::resize(int columns, int rows) {
     }
 }
 
-std::vector<float>& Matrix::operator[](int pos) {
+std::vector<double>& Matrix::operator[](int pos) {
     return matrix.at(pos);
 }
-std::vector<float> Matrix::operator[](int pos) const {
+std::vector<double> Matrix::operator[](int pos) const {
     return matrix[pos];
 }
-std::vector<float> Matrix::getRow(int row) {
-    std::vector<float> rowVector;
+std::vector<double> Matrix::getRow(int row) {
+    std::vector<double> rowVector;
     for(auto& column : matrix){
-        float& value = column.at(row);
+        double& value = column.at(row);
         rowVector.emplace_back(value);
     }
     return rowVector;

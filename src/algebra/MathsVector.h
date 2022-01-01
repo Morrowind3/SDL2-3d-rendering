@@ -11,17 +11,17 @@
 
 class MathsVector {
 public:
-    MathsVector(float _x, float _y): x(_x), y(_y), colour("FFFFFF"){};
-    MathsVector(float _x, float _y, std::string _colour): x(_x), y(_y), colour(std::move(_colour)){};;
+    MathsVector(double _x, double _y): x(_x), y(_y), colour("FFFFFF"){};
+    MathsVector(double _x, double _y, std::string _colour): x(_x), y(_y), colour(std::move(_colour)){};;
     MathsVector operator+ (const MathsVector& vector) const;
     MathsVector operator- (const MathsVector& vector) const;
-    MathsVector operator* (float scalar) const;
-    float getX() const;
-    float getY() const;
+    MathsVector operator* (double scalar) const;
+    double getX() const;
+    double getY() const;
     std::string getColour();
 private:
-    float x;
-    float y;
+    double x;
+    double y;
     std::string colour;
 };
 

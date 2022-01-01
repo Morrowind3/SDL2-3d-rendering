@@ -74,7 +74,8 @@ int main(int argc, char *args[])
                        {50, 50, 30, 30},
                        {1, 1, 1, 1}}};
     Transform t;
-    t.scaleFrom({4,4}, 40, 40);
+//    t.scale({4, 4}, 40, 40);
+    t.rotate(45, 40, 40);
     t.apply(A);
 
     while(!quit)

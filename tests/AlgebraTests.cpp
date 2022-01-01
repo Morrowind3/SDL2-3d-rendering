@@ -200,7 +200,7 @@ TEST_CASE("Transformation"){
         REQUIRE(orig.getAt(3, 1) == -22);
     }
     SECTION("Scale from center"){
-        transform.scaleFrom({3.5, 3.5}, 6, -2);
+        transform.scale({3.5, 3.5}, 6, -2);
         transform.apply(orig);
 
         REQUIRE(orig.getAt(0, 0) == 90);

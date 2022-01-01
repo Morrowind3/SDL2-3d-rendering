@@ -13,15 +13,15 @@ MathsVector MathsVector::operator-(const MathsVector& vector) const {
     return MathsVector{x - vector.x,y - vector.y};
 }
 
-MathsVector MathsVector::operator*(const float scalar) const {
+MathsVector MathsVector::operator*(const double scalar) const {
     return MathsVector{x * scalar,y * scalar};
 }
 
-float MathsVector::getX() const {
+double MathsVector::getX() const {
     return x;
 }
 
-float MathsVector::getY() const {
+double MathsVector::getY() const {
     return y;
 }
 
