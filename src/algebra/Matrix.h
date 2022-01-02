@@ -14,12 +14,13 @@ using FloatVector = std::vector<double>;
 class Matrix {
 public:
     Matrix(int columns, int rows);
+    Matrix(MathsVector vector); //NOLINT  implicit conversion intentional.
     explicit Matrix(const std::vector<FloatVector>& content);
 
     Matrix operator+ (const Matrix& vector) const;
     Matrix operator- (const Matrix& vector);
     Matrix operator* (const Matrix& other);
-    Matrix operator* (const MathsVector& vector);
+    MathsVector operator* (const MathsVector& vector); //Can return both a Matrix and a vector thanks to implicit conversion. 
     std::vector<double>& operator[](int pos);
     std::vector<double> operator[](int pos) const;
     void placeAt(int column, int row, double value);
