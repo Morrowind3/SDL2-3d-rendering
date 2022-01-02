@@ -55,14 +55,15 @@ void processEvents(SDL_Event& event){
 
 }
 
+//TODO: Implicit conversion matrix - vector
 int main(int argc, char *args[])
 {
     SDL_Window *window = launch_window();
     SDL_Renderer* renderer = launch_renderer(window);
 /* Creating the surface. */
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
+//    SDL_Surface *surface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
     GraphPlotter plotter(renderer);
-    plotter.setCenter(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    plotter.setCenter({SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0});
 
 //    MathsVector A(180,180, "FFFB00FF");
 //    MathsVector B(-120,140, "FF0000FF");
@@ -75,7 +76,7 @@ int main(int argc, char *args[])
                        {1, 1, 1, 1}}};
     Transform t;
 //    t.scale({4, 4}, 40, 40);
-    t.rotate(45, 40, 40);
+    t.rotate(45, {40,40,1});
     t.apply(A);
 
     while(!quit)

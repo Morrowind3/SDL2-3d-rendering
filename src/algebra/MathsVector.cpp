@@ -5,26 +5,16 @@
 #include "MathsVector.h"
 
 MathsVector MathsVector::operator+(const MathsVector& vector) const {
-    return MathsVector{x + vector.x,y + vector.y};
+    return MathsVector{x + vector.x,y + vector.y, vector.z};
 
 }
 
 MathsVector MathsVector::operator-(const MathsVector& vector) const {
-    return MathsVector{x - vector.x,y - vector.y};
+    return MathsVector{x - vector.x,y - vector.y, vector.z};
 }
 
 MathsVector MathsVector::operator*(const double scalar) const {
-    return MathsVector{x * scalar,y * scalar};
+    return MathsVector{x * scalar,y * scalar, z * scalar};
 }
 
-double MathsVector::getX() const {
-    return x;
-}
 
-double MathsVector::getY() const {
-    return y;
-}
-
-std::string MathsVector::getColour() {
-    return colour;
-}

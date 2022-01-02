@@ -12,7 +12,7 @@
 class GraphPlotter {
 public:
     explicit GraphPlotter(SDL_Renderer* _renderer) : renderer(_renderer) { };
-    void setCenter(float centerX, float centerY);
+    void setCenter(MathsVector center);
     void drawGrid(float width, float height, float dimension);
     void drawAxis(float width, float height, float guideMarkDistance);
     void drawVector(MathsVector vector);
@@ -22,11 +22,12 @@ public:
 
 private:
     void drawAxis(float x, float y, float width, float height, float guideMarkDistance);
-    std::vector<MathsVector> extractVectors(const Matrix& matrix);
+    static std::vector<MathsVector> extractVectors(const Matrix& matrix);
 
     SDL_Renderer* renderer;
-    float centerX = 0;
-    float centerY = 0;
+    double centerX = 0;
+    double centerY = 0;
+    double centerZ = 0;
 };
 
 

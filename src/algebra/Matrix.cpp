@@ -68,9 +68,9 @@ Matrix Matrix::operator*(const MathsVector& vector) {
     Matrix newMatrix{1, getHeight()};
     for(int row = 0; row < getHeight(); ++row){
         auto rowVector = getRow(row);
-        float newVal = 0;
-        newVal += rowVector[0] * vector.getX();
-        newVal += rowVector[1] * vector.getY();
+        double newVal = 0;
+        newVal += rowVector[0] * vector.x;
+        newVal += rowVector[1] * vector.x;
         newMatrix.matrix[0][row] = newVal;
     }
     return newMatrix;
@@ -80,7 +80,7 @@ double& Matrix::getAt(int x, int y) {
     return matrix[x][y];
 }
 
-void Matrix::placeAt(int column, int row, float value) {
+void Matrix::placeAt(int column, int row, double value) {
     if(column+1 > getWidth()){
         resize(column+1, getHeight());
     }

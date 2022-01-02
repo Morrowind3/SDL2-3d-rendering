@@ -10,23 +10,23 @@ void Transform::apply(Matrix& matrix) {
     matrix = transformationMatrix * matrix;
 }
 
-void Transform::scale(const MathsVector& scalar, float originX, float originY) {
-    translate({originX*-1, originY*-1});
+void Transform::scale(const MathsVector& scalar, const MathsVector& origin) {
+    translate({origin.x*-1, origin.y*-1, origin.z*-1});
     scale(scalar);
-    translate({originX, originY});
+    translate({origin.x, origin.y, origin.z});
 }
 
 
 void Transform::scale(const MathsVector& scalar) {
-    Matrix scale { {{scalar.getX(), 0, 0},
-                             {0, scalar.getY(), 0},
+    Matrix scale { {{scalar.x, 0, 0},
+                             {0, scalar.y, 0},
                              {0, 0     , 1}}};
     transformationMatrix = scale * transformationMatrix;
 }
 
 void Transform::translate(const MathsVector& movement) {
-    Matrix translate { {{1, 0, movement.getX()},
-                               {0, 1, movement.getY()},
+    Matrix translate { {{1, 0, movement.x},
+                               {0, 1, movement.y},
                                {0, 0 , 1}}};
     transformationMatrix = translate * transformationMatrix;
 }
@@ -43,9 +43,9 @@ void Transform::rotate(double degrees) {
     transformationMatrix = rotate * transformationMatrix;
 }
 
-void Transform::rotate(double degrees, double originX, double originY) {
-    translate({originX*-1, originY*-1});
+void Transform::rotate(double degrees, const MathsVector& origin) {
+    translate({origin.x*-1, origin.y*-1, origin.z*-1});
     rotate(degrees);
-    translate({originX, originY});
+    translate({origin.x, origin.y, origin.z});
 }
 

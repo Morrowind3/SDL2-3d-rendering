@@ -22,7 +22,7 @@ public:
     Matrix operator* (const MathsVector& vector);
     std::vector<double>& operator[](int pos);
     std::vector<double> operator[](int pos) const;
-    void placeAt(int column, int row, float value);
+    void placeAt(int column, int row, double value);
     double& getAt(int x, int y);
     int getWidth() const;
     int getHeight() const;
