@@ -18,16 +18,18 @@ void Transform::scale(const MathsVector& scalar, const MathsVector& origin) {
 
 
 void Transform::scale(const MathsVector& scalar) {
-    Matrix scale { {{scalar.x, 0, 0},
-                             {0, scalar.y, 0},
-                             {0, 0     , 1}}};
+    Matrix scale { {{scalar.x, 0, 0, 0},
+                           {0, scalar.y, 0, 0},
+                           {0, 0, scalar.z, 0},
+                           {0, 0, 0       , 1}}};
     transformationMatrix = scale * transformationMatrix;
 }
 
 void Transform::translate(const MathsVector& movement) {
-    Matrix translate { {{1, 0, movement.x},
-                               {0, 1, movement.y},
-                               {0, 0 , 1}}};
+    Matrix translate { {{1, 0, 0, movement.x},
+                               {0, 1, 0, movement.y},
+                               {0, 0, 1, movement.z},
+                               {0, 0, 0, 1         }}};
     transformationMatrix = translate * transformationMatrix;
 }
 

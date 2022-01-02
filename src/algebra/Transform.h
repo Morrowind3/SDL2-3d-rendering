@@ -20,9 +20,10 @@ public:
     void scale(const MathsVector& scalar);
     void translate(const MathsVector& movement);
 private:
-    Matrix transformationMatrix { {{1, 0, 0},
-                                          {0, 1, 0},
-                                          {0, 0, 1}}};
+    Matrix transformationMatrix { {{1, 0, 0, 0},
+                                          {0, 1, 0, 0},
+                                          {0, 0, 1, 0},
+                                          {0, 0, 0, 1}}};
 
 };
 

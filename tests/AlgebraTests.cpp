@@ -161,59 +161,71 @@ TEST_CASE("Matrices"){
         REQUIRE(C.getAt(0, 2) == -17);
     }
 }
-////
-//TEST_CASE("Transformation"){
-//    Matrix orig { {{30, 50, 10, -40},
-//                          {5, 100, 20, -20},
-//                          {1, 1, 1, 1}}};
-//    Transform transform;
-//
-//    SECTION("Scale"){
-//        transform.scale({3.3, 2, 2});
-//        transform.apply(orig);
-//
-//        REQUIRE(orig.getAt(0, 0) == 99);
-//        REQUIRE(orig.getAt(0, 1) == 10);
-//
-//        REQUIRE(orig.getAt(1, 0) == 165);
-//        REQUIRE(orig.getAt(1, 1) == 200);
-//
-//        REQUIRE(orig.getAt(2, 0) == 33);
-//        REQUIRE(orig.getAt(2, 1) == 40);
-//
-//        REQUIRE(orig.getAt(3, 0) == -132);
-//        REQUIRE(orig.getAt(3, 1) == -40);
-//    }
-//    SECTION("Translate"){
-//        transform.translate({6,-2, 2});
-//        transform.apply(orig);
-//
-//        REQUIRE(orig.getAt(0, 0) == 36);
-//        REQUIRE(orig.getAt(0, 1) == 3);
-//
-//        REQUIRE(orig.getAt(1, 0) == 56);
-//        REQUIRE(orig.getAt(1, 1) == 98);
-//
-//        REQUIRE(orig.getAt(2, 0) == 16);
-//        REQUIRE(orig.getAt(2, 1) == 18);
-//
-//        REQUIRE(orig.getAt(3, 0) == -34);
-//        REQUIRE(orig.getAt(3, 1) == -22);
-//    }
-//    SECTION("Scale from center"){
-//        transform.scale({3.5, 3.5, 3.5}, 6, -2);
-//        transform.apply(orig);
-//
-//        REQUIRE(orig.getAt(0, 0) == 90);
-//        REQUIRE(orig.getAt(0, 1) == 22.5);
-//
-//        REQUIRE(orig.getAt(1, 0) == 160);
-//        REQUIRE(orig.getAt(1, 1) == 355);
-//
-//        REQUIRE(orig.getAt(2, 0) == 20);
-//        REQUIRE(orig.getAt(2, 1) == 75);
-//
-//        REQUIRE(orig.getAt(3, 0) == -155);
-//        REQUIRE(orig.getAt(3, 1) == -65);
-//    }
-//}
+
+TEST_CASE("Transformation"){
+    Matrix orig { {{30, 50, 10, -40},
+                          {5, 100, 20, -20},
+                          {1, 2, 2, 1},
+                          {1, 1, 1, 1}}};
+    Transform transform;
+
+    SECTION("Scale"){
+        transform.scale({3.3, 2, 2});
+        transform.apply(orig);
+
+        REQUIRE(orig.getAt(0, 0) == 99);
+        REQUIRE(orig.getAt(0, 1) == 10);
+        REQUIRE(orig.getAt(0, 2) == 2);
+
+        REQUIRE(orig.getAt(1, 0) == 165);
+        REQUIRE(orig.getAt(1, 1) == 200);
+        REQUIRE(orig.getAt(1, 2) == 4);
+
+        REQUIRE(orig.getAt(2, 0) == 33);
+        REQUIRE(orig.getAt(2, 1) == 40);
+        REQUIRE(orig.getAt(2, 2) == 4);
+
+        REQUIRE(orig.getAt(3, 0) == -132);
+        REQUIRE(orig.getAt(3, 1) == -40);
+        REQUIRE(orig.getAt(3, 2) == 2);
+
+    }
+    SECTION("Translate"){
+        transform.translate({6,-2, 2});
+        transform.apply(orig);
+
+        REQUIRE(orig.getAt(0, 0) == 36);
+        REQUIRE(orig.getAt(0, 1) == 3);
+        REQUIRE(orig.getAt(0, 2) == 3);
+
+        REQUIRE(orig.getAt(1, 0) == 56);
+        REQUIRE(orig.getAt(1, 1) == 98);
+        REQUIRE(orig.getAt(1, 2) == 4);
+
+        REQUIRE(orig.getAt(2, 0) == 16);
+        REQUIRE(orig.getAt(2, 1) == 18);
+        REQUIRE(orig.getAt(2, 2) == 4);
+
+        REQUIRE(orig.getAt(3, 0) == -34);
+        REQUIRE(orig.getAt(3, 1) == -22);
+        REQUIRE(orig.getAt(3, 2) == 3);
+
+    }
+    SECTION("Scale from center"){
+        transform.scale({3.5, 3.5, 3.5}, {6, -2, 4});
+        transform.apply(orig);
+
+        REQUIRE(orig.getAt(0, 0) == 90);
+        REQUIRE(orig.getAt(0, 1) == 22.5);
+
+        REQUIRE(orig.getAt(1, 0) == 160);
+        REQUIRE(orig.getAt(1, 1) == 355);
+
+        REQUIRE(orig.getAt(2, 0) == 20);
+        REQUIRE(orig.getAt(2, 1) == 75);
+
+        REQUIRE(orig.getAt(3, 0) == -155);
+        REQUIRE(orig.getAt(3, 1) == -65);
+    }
+
+}
