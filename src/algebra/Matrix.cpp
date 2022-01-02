@@ -1,7 +1,7 @@
 #include "Matrix.h"
 
 #include <utility>
-#include "../../InvalidMatrixDimensionsException.h"
+#include "InvalidMatrixDimensionsException.h"
 
 #define throwDimensionError(arg) throw InvalidMatrixDimensionsException(arg, __FILE__, __LINE__);
 

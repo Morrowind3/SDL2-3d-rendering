@@ -3,7 +3,7 @@
 #include "SDL.h"
 #undef main
 
-#include "src/view/GraphPlotter.h"
+#include "src/view/Rendering.h"
 #include "src/algebra/Transform.h"
 
 #define SCREEN_WIDTH    1200
@@ -35,8 +35,6 @@ SDL_Window* launch_window(){
 }
 
 SDL_Renderer* launch_renderer(SDL_Window* window) {
-
-
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         std::cout << "Renderer could not be created!" << std::endl
@@ -45,55 +43,73 @@ SDL_Renderer* launch_renderer(SDL_Window* window) {
     return renderer;
 }
 
-void processEvents(SDL_Event& event){
-    SDL_WaitEvent(&event);
 
-    if(event.type == SDL_QUIT)
-    {
-        quit = true;
-    }
+void renderObjects(Rendering& rendering, SDL_Renderer* SDL){
+    //TODO: Class that owns and manipulates the objects.
+    Matrix A { {{30, 50, 50, 30, 30, 50, 50, 30},
+                       {50, 50, 30, 30, 50, 50, 30, 30},
+                       {10, 10, 10, 10, 40, 40, 40, 40},
+                       {1,   1,  1, 1, 1, 1, 1, 1}}};
+    Transform t;
+//    t.scale({3,6,3}, {40,40,15});
+    t.apply(A);
+
+    SDL_SetRenderDrawColor(SDL, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(SDL);
+    rendering.drawGrid(20,20,1200);
+    rendering.drawAxis( 400, 400, 20);
+    rendering.drawMatrix(A);
+
+    SDL_RenderPresent(SDL);
 
 }
 
-//TODO: Implicit conversion matrix - vector
+void processEvents(SDL_Event& event, Rendering& renderer){
+    SDL_PollEvent(&event);
+    switch(event.type){
+        case SDL_QUIT:
+            quit = true;
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_1: renderer.setPerspective(Rendering::Perspective::FRONT);
+                break;
+                case SDLK_2: renderer.setPerspective(Rendering::Perspective::SIDE);
+                break;
+                case SDLK_3: renderer.setPerspective(Rendering::Perspective::TOP);
+                break;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 int main(int argc, char *args[])
 {
     SDL_Window *window = launch_window();
-    SDL_Renderer* renderer = launch_renderer(window);
-/* Creating the surface. */
-//    SDL_Surface *surface = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
-    GraphPlotter plotter(renderer);
-    plotter.setCenter({SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0});
+    SDL_Renderer* SDL = launch_renderer(window);
 
-//    MathsVector A(180,180, "FFFB00FF");
-//    MathsVector B(-120,140, "FF0000FF");
-//    Matrix A { {{0, 20, 30, 40, 60, 40, 30, 20},
-//                       {30, 40, 60, 40, 30, 20, 0, 20},
-//                       {1, 1, 1, 1, 1, 1, 1, 1}}};
-
-    Matrix A { {{30, 50, 50, 30},
-                       {50, 50, 30, 30},
-                       {1, 1, 1, 1}}};
-    Transform t;
-//    t.scale({4, 4}, 40, 40);
-    t.rotate(45, {40,40,1});
-    t.apply(A);
+    Rendering renderer(SDL);
+    renderer.setCenter({SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2});
 
     while(!quit)
     {
-        SDL_Event e;
-        processEvents(e);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-        SDL_RenderClear(renderer);
-        plotter.drawGrid(20,20,1200);
-        plotter.drawAxis( 400, 400, 20);
+        SDL_Delay(20);
+        Uint64 start = SDL_GetPerformanceCounter();
+        renderObjects(renderer, SDL);
 
-        plotter.drawMatrix(A);
+        Uint64 end = SDL_GetPerformanceCounter();
+        float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+        // Cap to 60 FPS
+        SDL_Delay(floor(16.666f - elapsedMS));
 
-        SDL_RenderPresent(renderer);
+        SDL_Event event;
+        processEvents(event, renderer);
     }
 
-    SDL_DestroyRenderer(renderer);
+    SDL_DestroyRenderer(SDL);
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
