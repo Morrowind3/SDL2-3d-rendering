@@ -1,7 +1,5 @@
 #include <iostream>
-#include <utility>
 #include "Rendering.h"
-#include "../algebra/Matrix.h"
 #include "RenderingStrategies/TopView.h"
 #include "RenderingStrategies/SideView.h"
 
@@ -18,9 +16,6 @@
  *  Remember: Gaten in een model, vooral bij 2D, wordt vaak met een transparante texture gedaan, dus dit is prima.
  *
  */
-
-//    int red, green, blue, alpha;
-//    sscanf_s(vector.getColour().c_str(), "%02x%02x%02x%02x", &red, &green, &blue, &alpha);
 
 
 void Rendering::drawGrid(float cellWidth, float cellHeight, float dimension) {
@@ -68,6 +63,12 @@ void Rendering::setPerspective(Rendering::Perspective perspective) {
 
 void Rendering::drawAxis(float width, float height, float guideMarkDistance) {
     renderingStrategy->drawAxis(width, height, guideMarkDistance);
+}
+
+void Rendering::setColour(const std::string& colourCode) {
+    int red, green, blue, alpha;
+    sscanf_s(colourCode.c_str(), "%02x%02x%02x%02x", &red, &green, &blue, &alpha);
+    SDL_SetRenderDrawColor(renderer, red, green, blue, SDL_ALPHA_OPAQUE);
 }
 
 

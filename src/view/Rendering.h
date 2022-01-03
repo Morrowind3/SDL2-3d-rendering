@@ -1,7 +1,3 @@
-//
-// Created by Morrowind3 on 17/11/2021.
-//
-
 #ifndef THREEDEE_RENDERING_H
 #define THREEDEE_RENDERING_H
 
@@ -19,6 +15,7 @@ public:
 
     explicit Rendering(SDL_Renderer* _renderer) : renderer(_renderer) { };
 
+    void setColour(const std::string& colourCode);
     void setPerspective (Perspective perspective);
     void setCenter(const MathsVector& center);
     void drawGrid(float width, float height, float dimension);

@@ -1,7 +1,3 @@
-//
-// Created by Morrowind3 on 01/01/2022.
-//
-
 #ifndef LINALG_TRANSFORM_H
 #define LINALG_TRANSFORM_H
 
@@ -14,8 +10,13 @@ public:
     Transform() = default;
     void apply(Matrix& matrix);
     std::shared_ptr<Matrix> getTransformationMatrix();
-    void rotate(double degrees, const MathsVector& origin);
-    void rotate(double degrees);
+
+    void rotateX(double degrees, const MathsVector& origin);
+    void rotateY(double degrees, const MathsVector& origin);
+    void rotateZ(double degrees, const MathsVector& origin);
+    void rotateX(double degrees);
+    void rotateY(double degrees);
+    void rotateZ(double degrees);
     void scale(const MathsVector& scalar, const MathsVector& origin);
     void scale(const MathsVector& scalar);
     void translate(const MathsVector& movement);
