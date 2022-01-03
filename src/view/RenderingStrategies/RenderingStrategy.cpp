@@ -22,7 +22,9 @@ std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix,
 
         double nextZ = std::numeric_limits<double>::max();
         for(int vector = 0; vector < matrix.getWidth(); ++vector){
-            if(matrix[vector][2] > lastZ && matrix[vector][2] < nextZ){
+            bool moreThanLast = matrix[vector][2] > lastZ;
+            bool lessThanNext = matrix[vector][2] < nextZ;
+            if(moreThanLast && lessThanNext ){
                 nextZ = matrix[vector][2];
             }
         }

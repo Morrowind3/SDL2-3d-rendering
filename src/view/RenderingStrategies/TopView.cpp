@@ -13,9 +13,9 @@ void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
 void TopView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
-    double lastZ = std::numeric_limits<double>::min();
+    double lastZ = std::numeric_limits<double>::lowest();
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, 0);
+    std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
 
     while(!vectors.empty()){
         vectors = extractVectors(matrix, lastZ);

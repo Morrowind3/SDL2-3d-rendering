@@ -8,7 +8,7 @@ void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
 void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
-    double lastZ = std::numeric_limits<double>::min();
+    double lastZ = std::numeric_limits<double>::lowest();
     std::vector<MathsVector> prevVectors;
     std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
 
