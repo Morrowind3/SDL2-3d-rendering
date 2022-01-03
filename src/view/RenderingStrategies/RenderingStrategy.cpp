@@ -3,7 +3,7 @@
 //
 
 #include "RenderingStrategy.h"
-
+#include <limits>
 
 std::vector<MathsVector> RenderingStrategy::extractVectors2D(const Matrix& matrix) {
     std::vector<MathsVector> vectors;
@@ -16,11 +16,11 @@ std::vector<MathsVector> RenderingStrategy::extractVectors2D(const Matrix& matri
 
 
 //Extracts vectors from a matrix to draw them. LastZ is used to only extract the next layer on the Z axis.
-std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix, int lastZ) {
+std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix, double lastZ) {
         std::vector<MathsVector> vectors;
         vectors.reserve(matrix.getWidth());
 
-        int nextZ = std::numeric_limits<int>::max();
+        double nextZ = std::numeric_limits<double>::max();
         for(int vector = 0; vector < matrix.getWidth(); ++vector){
             if(matrix[vector][2] > lastZ && matrix[vector][2] < nextZ){
                 nextZ = matrix[vector][2];

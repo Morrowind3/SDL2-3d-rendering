@@ -10,6 +10,7 @@ void Transform::apply(Matrix& matrix) {
     matrix = transformationMatrix * matrix;
 }
 
+//TODO: increasing Z-scale makes object disappear?
 void Transform::scale(const MathsVector& scalar, const MathsVector& origin) {
     translate({origin.x*-1, origin.y*-1, origin.z*-1});
     scale(scalar);

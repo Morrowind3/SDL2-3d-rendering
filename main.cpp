@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include "SDL.h"
+#include <math.h>
 #undef main
 
 #include "src/view/Rendering.h"
@@ -44,15 +45,13 @@ SDL_Renderer* launch_renderer(SDL_Window* window) {
 }
 
 
-void renderObjects(Rendering& rendering, SDL_Renderer* SDL){
+void renderObjects(Rendering& rendering, SDL_Renderer* SDL, Transform& transform){
     //TODO: Class that owns and manipulates the objects.
     Matrix A { {{30, 50, 50, 30, 30, 50, 50, 30},
                        {50, 50, 30, 30, 50, 50, 30, 30},
                        {10, 10, 10, 10, 40, 40, 40, 40},
                        {1,   1,  1, 1, 1, 1, 1, 1}}};
-    Transform t;
-//    t.scale({3,6,3}, {40,40,15});
-    t.apply(A);
+    transform.apply(A);
 
     SDL_SetRenderDrawColor(SDL, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(SDL);
@@ -64,7 +63,7 @@ void renderObjects(Rendering& rendering, SDL_Renderer* SDL){
 
 }
 
-void processEvents(SDL_Event& event, Rendering& renderer){
+void processEvents(SDL_Event& event, Rendering& renderer, Transform& transform){
     SDL_PollEvent(&event);
     switch(event.type){
         case SDL_QUIT:
@@ -73,12 +72,46 @@ void processEvents(SDL_Event& event, Rendering& renderer){
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+                //switch perspective
                 case SDLK_1: renderer.setPerspective(Rendering::Perspective::FRONT);
                 break;
                 case SDLK_2: renderer.setPerspective(Rendering::Perspective::SIDE);
                 break;
                 case SDLK_3: renderer.setPerspective(Rendering::Perspective::TOP);
                 break;
+
+                //scale
+                case SDLK_KP_8: transform.scale({1,1.5,1});
+                    break;
+                case SDLK_KP_2: transform.scale({1,0.5,1});
+                    break;
+                case SDLK_KP_4: transform.scale({0.5,1,1});
+                    break;
+                case SDLK_KP_6: transform.scale({1.5,1,1});
+                    break;
+                case SDLK_KP_7: transform.scale({1,1,0.5});
+                    break;
+                case SDLK_KP_9: transform.scale({1,1,1.5});
+                    break;
+                case SDLK_KP_1: transform.scale({1.5,1.5,1.5});
+                    break;
+                case SDLK_KP_3: transform.scale({0.5,0.5,0.5});
+                    break;
+
+
+                //translate
+                case SDLK_w: transform.translate({0,1,0});
+                    break;
+                case SDLK_a:transform.translate({-1,0,0});
+                    break;
+                case SDLK_s: transform.translate({0,-1,0});
+                    break;
+                case SDLK_d: transform.translate({1,0,0});
+                    break;
+                case SDLK_q: transform.translate({0,0,-1});
+                    break;
+                case SDLK_e: transform.translate({0,0,1});
+                    break;
             }
             break;
         default:
@@ -93,20 +126,21 @@ int main(int argc, char *args[])
 
     Rendering renderer(SDL);
     renderer.setCenter({SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2});
+    Transform t;
 
     while(!quit)
     {
         SDL_Delay(20);
         Uint64 start = SDL_GetPerformanceCounter();
-        renderObjects(renderer, SDL);
+        renderObjects(renderer, SDL, t);
 
         Uint64 end = SDL_GetPerformanceCounter();
         float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-        // Cap to 60 FPS
-        SDL_Delay(floor(16.666f - elapsedMS));
+        // Cap to 60 FPS, disabled because it breaks debugging
+//        SDL_Delay(std::floor(16.666f - elapsedMS));
 
         SDL_Event event;
-        processEvents(event, renderer);
+        processEvents(event, renderer, t);
     }
 
     SDL_DestroyRenderer(SDL);

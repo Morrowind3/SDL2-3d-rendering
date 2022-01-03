@@ -18,7 +18,7 @@ public:
     void setCenter(const MathsVector& center);
 protected:
     SDL_Renderer* renderer;
-    static std::vector<MathsVector> extractVectors(const Matrix& matrix, int lastZ);
+    static std::vector<MathsVector> extractVectors(const Matrix& matrix, double lastZ);
     static std::vector<MathsVector> extractVectors2D(const Matrix& matrix);
     double centerX = 0;
     double centerY = 0;

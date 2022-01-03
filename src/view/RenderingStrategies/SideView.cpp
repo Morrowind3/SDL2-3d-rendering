@@ -1,13 +1,14 @@
 #include "SideView.h"
+#include <limits>
 
 //TODO: Side view still has cross-connected lines
 void SideView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
-    int lastZ = 0;
-
+    double lastZ = std::numeric_limits<double>::min();
     std::vector<MathsVector> prevVectors;
     std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
+
     while(!vectors.empty()){
         vectors = extractVectors(matrix, lastZ);
         lastZ = vectors.empty() ? 0 : vectors[0].z;
@@ -18,12 +19,6 @@ void SideView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             double nextCenterAdjustedZ = origin.z + vectors[(i + 1) % vectors.size()].z;
             double nextCenterAdjustedY = origin.y - vectors[(i + 1) % vectors.size()].y;
             SDL_RenderDrawLineF(renderer, centerAdjustedZ, centerAdjustedY, nextCenterAdjustedZ, nextCenterAdjustedY);
-
-            if(!prevVectors.empty()){
-                double prevCenterAdjustedZ = origin.z + prevVectors[(i-1) % vectors.size()].z;
-                double prevCenterAdjustedY = origin.y - prevVectors[(i-1) % vectors.size()].y;
-                SDL_RenderDrawLineF(renderer, centerAdjustedZ, centerAdjustedY, prevCenterAdjustedZ, prevCenterAdjustedY);
-            }
         }
         for(int i = 0; i < prevVectors.size() && !vectors.empty(); ++i){
             double centerAdjustedZ = origin.z + vectors[i % vectors.size()].z;

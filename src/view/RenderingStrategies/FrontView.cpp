@@ -1,4 +1,5 @@
 #include "FrontView.h"
+#include <limits>
 
 void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
     RenderingStrategy::drawAxis(centerX, centerY, width, height, guideMarkDistance);
@@ -7,7 +8,7 @@ void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
 void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
-    int lastZ = 0;
+    double lastZ = std::numeric_limits<double>::min();
     std::vector<MathsVector> prevVectors;
     std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
 

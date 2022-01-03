@@ -1,4 +1,5 @@
 #include "TopView.h"
+#include <limits>
 
 void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -12,7 +13,7 @@ void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
 void TopView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
-    int lastZ = 0;
+    double lastZ = std::numeric_limits<double>::min();
     std::vector<MathsVector> prevVectors;
     std::vector<MathsVector> vectors = extractVectors(matrix, 0);
 
