@@ -8,10 +8,72 @@
 #include "src/algebra/Transform.h"
 
 #define SCREEN_WIDTH    1200
-#define SCREEN_HEIGHT   1200
+#define SCREEN_HEIGHT   1000
 
 
 bool quit = false;
+
+void topViewport(SDL_Renderer* SDL, Rendering& rendering, Matrix& obj){
+    //Top left corner viewport
+    SDL_Rect topLeftViewport;
+    topLeftViewport.x = 0;
+    topLeftViewport.y = 0;
+    topLeftViewport.w = SCREEN_WIDTH / 2;
+    topLeftViewport.h = SCREEN_HEIGHT / 2;
+
+//    rendering.setCenter({static_cast<double>(topLeftViewport.w/2), static_cast<double>(topLeftViewport.h/2), static_cast<double>(topLeftViewport.w/2)});
+    rendering.drawAxis( 400, 400, 20);
+    rendering.setPerspective(Rendering::Perspective::FRONT);
+    rendering.drawMatrix(obj);
+    SDL_SetRenderDrawColor(SDL, 255, 0, 0, 255);
+    SDL_RenderDrawLine(SDL, topLeftViewport.x+1, topLeftViewport.y-1, topLeftViewport.x+topLeftViewport.w+1, topLeftViewport.y-1);
+    SDL_RenderDrawLine(SDL, topLeftViewport.x+1, topLeftViewport.y-1, topLeftViewport.x+1, topLeftViewport.y - topLeftViewport.h);
+    SDL_RenderDrawLine(SDL, topLeftViewport.x, topLeftViewport.y - topLeftViewport.h, topLeftViewport.x+topLeftViewport.w, topLeftViewport.y - topLeftViewport.h);
+
+    SDL_RenderSetViewport( SDL, &topLeftViewport );
+}
+void sideViewport(SDL_Renderer* SDL, Rendering& rendering, Matrix& obj){
+    SDL_Rect topRightViewport;
+    topRightViewport.x = SCREEN_WIDTH / 2;
+    topRightViewport.y = 0;
+    topRightViewport.w = SCREEN_WIDTH / 2;
+    topRightViewport.h = SCREEN_HEIGHT / 2;
+
+//    rendering.setCenter({static_cast<double>(topRightViewport.w/2), static_cast<double>(topRightViewport.h/2), static_cast<double>(topRightViewport.w/2)});
+
+    rendering.drawAxis( 400, 400, 20);
+    rendering.setPerspective(Rendering::Perspective::TOP);
+    rendering.drawMatrix(obj);
+    SDL_SetRenderDrawColor(SDL, 255, 0, 0, 255);
+    SDL_RenderDrawLine(SDL, topRightViewport.x+1, topRightViewport.y-1, topRightViewport.x+topRightViewport.w+1, topRightViewport.y-1);
+    SDL_RenderDrawLine(SDL, topRightViewport.x+1, topRightViewport.y-1, topRightViewport.x+1, topRightViewport.y - topRightViewport.h);
+    SDL_RenderDrawLine(SDL, topRightViewport.x, topRightViewport.y - topRightViewport.h, topRightViewport.x+topRightViewport.w, topRightViewport.y - topRightViewport.h);
+
+    SDL_RenderSetViewport( SDL, &topRightViewport );
+}
+void frontViewport(SDL_Renderer* SDL, Rendering& rendering, Matrix& obj){
+    //Bottom viewport
+    SDL_Rect bottomViewport;
+    bottomViewport.x = 0;
+    bottomViewport.y = SCREEN_HEIGHT / 2;
+    bottomViewport.w = SCREEN_WIDTH;
+    bottomViewport.h = SCREEN_HEIGHT / 2;
+
+
+//    rendering.setCenter({static_cast<double>(bottomViewport.w/2), static_cast<double>(bottomViewport.h/2), static_cast<double>(bottomViewport.w/2)});
+    rendering.drawAxis( 400, 400, 20);
+
+    rendering.setPerspective(Rendering::Perspective::SIDE);
+    rendering.drawMatrix(obj);
+    SDL_SetRenderDrawColor(SDL, 0, 255, 0, 255);
+    SDL_RenderDrawLine(SDL, bottomViewport.x+1, bottomViewport.y-1, bottomViewport.x+bottomViewport.w+1, bottomViewport.y-1);
+    SDL_RenderDrawLine(SDL, bottomViewport.x+1, bottomViewport.y-1, bottomViewport.x+1, bottomViewport.y - bottomViewport.h);
+    SDL_RenderDrawLine(SDL, bottomViewport.x, bottomViewport.y - bottomViewport.h, bottomViewport.x+bottomViewport.w, bottomViewport.y - bottomViewport.h);
+
+
+
+    SDL_RenderSetViewport( SDL, &bottomViewport );
+}
 
 SDL_Window* launch_window(){
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -55,15 +117,18 @@ void renderObjects(Rendering& rendering, SDL_Renderer* SDL, Transform& transform
 
     SDL_SetRenderDrawColor(SDL, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(SDL);
-    rendering.drawGrid(20,20,1200);
-    rendering.drawAxis( 400, 400, 20);
-    rendering.drawMatrix(A);
+//    rendering.drawGrid(20,20,1200);
+
+    topViewport(SDL, rendering, A);
+    frontViewport(SDL, rendering, A);
+    sideViewport(SDL, rendering, A);
+
 
     SDL_RenderPresent(SDL);
 
 }
 
-void processEvents(SDL_Event& event, Rendering& renderer, Transform& transform){
+void processEvents(SDL_Event& event, Transform& transform){
     SDL_PollEvent(&event);
     switch(event.type){
         case SDL_QUIT:
@@ -72,14 +137,6 @@ void processEvents(SDL_Event& event, Rendering& renderer, Transform& transform){
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-                //switch perspective
-                case SDLK_1: renderer.setPerspective(Rendering::Perspective::FRONT);
-                break;
-                case SDLK_2: renderer.setPerspective(Rendering::Perspective::SIDE);
-                break;
-                case SDLK_3: renderer.setPerspective(Rendering::Perspective::TOP);
-                break;
-
                 //scale
                 case SDLK_KP_8: transform.scale({1,1.5,1});
                     break;
@@ -125,22 +182,15 @@ int main(int argc, char *args[])
     SDL_Renderer* SDL = launch_renderer(window);
 
     Rendering renderer(SDL);
-    renderer.setCenter({SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2});
+    renderer.setCenter({SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4});
     Transform t;
 
     while(!quit)
     {
         SDL_Delay(20);
-        Uint64 start = SDL_GetPerformanceCounter();
         renderObjects(renderer, SDL, t);
-
-        Uint64 end = SDL_GetPerformanceCounter();
-        float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-        // Cap to 60 FPS, disabled because it breaks debugging
-//        SDL_Delay(std::floor(16.666f - elapsedMS));
-
         SDL_Event event;
-        processEvents(event, renderer, t);
+        processEvents(event, t);
     }
 
     SDL_DestroyRenderer(SDL);
