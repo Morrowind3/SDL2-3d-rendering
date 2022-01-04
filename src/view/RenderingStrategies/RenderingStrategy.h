@@ -6,19 +6,20 @@
 #include <memory>
 #include <utility>
 #include "../../algebra/Matrix.h"
+#include "../../model/Entities/Mesh.h"
 
 class RenderingStrategy {
 public:
-    RenderingStrategy(SDL_Renderer* _renderer, MathsVector defaultCenter = {0,0,0}): renderer(_renderer), centerX(defaultCenter.x), centerY(defaultCenter.y), centerZ(defaultCenter.z){};
-    virtual void drawMatrix(const Matrix& matrix, const MathsVector& origin) = 0;
-    void drawMatrix(const Matrix& matrix){ drawMatrix(matrix, {centerX, centerY, centerZ});};
+    explicit RenderingStrategy(SDL_Renderer* _renderer, MathsVector defaultCenter = {0,0,0}): renderer(_renderer), centerX(defaultCenter.x), centerY(defaultCenter.y), centerZ(defaultCenter.z){};
+    virtual void drawMesh(const Mesh& matrix, const MathsVector& origin) = 0;
+    void drawMesh(const Mesh& matrix){ drawMesh(matrix, {centerX, centerY, centerZ});};
     virtual void drawVector(const MathsVector& vector, const MathsVector& origin) = 0;
     void drawVector(const MathsVector& vector){ drawVector(vector, {centerX, centerY, centerZ});};
     virtual void drawAxis(float width, float height, float guideMarkDistance) = 0;
     void setCenter(const MathsVector& center);
 protected:
     SDL_Renderer* renderer;
-    static std::vector<MathsVector> extractVectors(const Matrix& matrix, std::shared_ptr<double> lastZ);
+    static std::vector<MathsVector> extractVectors(const Matrix& matrix, int layerStart, int layerEnd);
     static std::vector<MathsVector> extractVectors2D(const Matrix& matrix);
     double centerX = 0;
     double centerY = 0;

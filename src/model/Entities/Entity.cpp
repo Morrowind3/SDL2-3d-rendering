@@ -1,9 +1,9 @@
 #include "Entity.h"
 
 void Entity::render(Rendering& rendering) {
-        rendering.setColour(colour);
-        rendering.setCenter(mesh.center);
-        rendering.drawMatrix(mesh.matrix);
+    rendering.setColour(colour);
+    rendering.setCenter(mesh.center);
+    rendering.drawMesh(mesh);
 }
 
 void Entity::transform(Transform& transform) {

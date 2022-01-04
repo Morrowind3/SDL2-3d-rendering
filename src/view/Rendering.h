@@ -22,8 +22,8 @@ public:
     void drawAxis(float width, float height, float guideMarkDistance);
     void drawVector(const MathsVector& vector);
     void drawVector(const MathsVector& vector, const MathsVector& origin);
-    void drawMatrix(const Matrix& matrix);
-    void drawMatrix(const Matrix& matrix, const MathsVector& origin);
+    void drawMesh(const Mesh& mesh);
+    void drawMesh(const Mesh& mesh, const MathsVector& origin);
 
 private:
     MathsVector center{0,0,0};

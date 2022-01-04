@@ -3,14 +3,16 @@
 #include <bits/stdc++.h>
 
 
-void SideView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-
-    std::shared_ptr<double> lastZIndex = std::make_unique<double>(std::numeric_limits<double>::lowest());
-
+void SideView::drawMesh(const Mesh& mesh, const MathsVector& origin) {
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, lastZIndex);
+    std::vector<MathsVector> vectors;
+    int zLayer = 0;
+    int layerStart = 0;
+    int layerEnd = mesh.zLayers[zLayer];
 
-    while(!vectors.empty()){
+    while(zLayer < mesh.zLayers.size()){
+        vectors  = extractVectors(mesh.matrix, layerStart, layerEnd);
+
         //draw Z-layer
         for(int i = 0; i < vectors.size(); ++i){
             double centerAdjustedZ = origin.z + vectors[i].z;
@@ -29,7 +31,8 @@ void SideView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             SDL_RenderDrawLineF(renderer, centerAdjustedZ, centerAdjustedY, prevCenterAdjustedZ, prevCenterAdjustedY);
         }
         prevVectors = vectors;
-        vectors = extractVectors(matrix, lastZIndex);
+        layerStart = mesh.zLayers[zLayer++];
+        layerEnd = mesh.zLayers[zLayer];
     }
 }
 

@@ -8,7 +8,7 @@
 class SideView : public RenderingStrategy {
 public:
     explicit SideView(SDL_Renderer* _renderer, MathsVector defaultCenter): RenderingStrategy(_renderer, defaultCenter){};
-    void drawMatrix(const Matrix& matrix, const MathsVector& origin) override;
+    void drawMesh(const Mesh& matrix, const MathsVector& origin) override;
     void drawVector(const MathsVector& vector, const MathsVector& origin) override;
     void drawAxis(float width, float height, float guideMarkDistance) override;
 };

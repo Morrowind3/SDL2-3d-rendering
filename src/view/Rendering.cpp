@@ -8,7 +8,7 @@
  *  x1 x2 x3 ....
  *  y1 y2 y3 ....
  *  z1 z2 z3 ....
- *  1  1  2  .... // Z-index. Remains constant, unlike z-coordinates.
+ *  1  1  2  ....
  *
  *  Hierbij zit het volledige object in één matrix. Daarop roep je een bepaalde transformatiematrix op
  *
@@ -42,11 +42,11 @@ void Rendering::drawVector(const MathsVector& vector) {
     renderingStrategy->drawVector(vector);
 }
 
-void Rendering::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-    renderingStrategy->drawMatrix(matrix, origin);
+void Rendering::drawMesh(const Mesh& mesh, const MathsVector& origin) {
+    renderingStrategy->drawMesh(mesh, origin);
 }
-void Rendering::drawMatrix(const Matrix& matrix){
-    renderingStrategy->drawMatrix(matrix);
+void Rendering::drawMesh(const Mesh& mesh){
+    renderingStrategy->drawMesh(mesh);
 }
 
 void Rendering::setPerspective(Rendering::Perspective perspective) {

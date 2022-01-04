@@ -11,14 +11,15 @@ void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
     SDL_RenderDrawLineF(renderer, origin.x, origin.z, centerAdjustedX, centerAdjustedZ);
 }
 
-void TopView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-    std::shared_ptr<double> lastZIndex = std::make_unique<double>(std::numeric_limits<double>::lowest());
-
+void TopView::drawMesh(const Mesh& mesh, const MathsVector& origin) {
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, lastZIndex);
+    std::vector<MathsVector> vectors;
+    int zLayer = 0;
+    int layerStart = 0;
+    int layerEnd = mesh.zLayers[zLayer];
 
-    while(!vectors.empty()){
-
+    while(zLayer < mesh.zLayers.size()){
+        vectors  = extractVectors(mesh.matrix, layerStart, layerEnd);
         //draw Z-layer
         for(int i = 0; i < vectors.size(); ++i){
             double centerAdjustedX = origin.x + vectors[i].x;
@@ -37,7 +38,8 @@ void TopView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedZ, prevCenterAdjustedX, prevCenterAdjustedZ);
         }
         prevVectors = vectors;
-        vectors = extractVectors(matrix, lastZIndex);
+        layerStart = mesh.zLayers[zLayer++];
+        layerEnd = mesh.zLayers[zLayer];
     }
 }
 

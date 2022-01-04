@@ -16,24 +16,12 @@ std::vector<MathsVector> RenderingStrategy::extractVectors2D(const Matrix& matri
 
 
 //Extracts vectors from a matrix to draw them. LastZ is used to only extract the next layer on the Z axis.
-std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix, std::shared_ptr<double> lastZ) {
+std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix, int layerStart, int layerEnd) {
         std::vector<MathsVector> vectors;
         vectors.reserve(matrix.getWidth());
 
-        double nextZ = std::numeric_limits<double>::max();
-        for(int vector = 0; vector < matrix.getWidth(); ++vector){
-            bool moreThanLast = matrix[vector][3] > *lastZ;
-            bool lessThanNext = matrix[vector][3] < nextZ;
-            if(moreThanLast && lessThanNext ){
-                nextZ = matrix[vector][3];
-            }
-        }
-        *lastZ = nextZ;
-
-        for(int vector = 0; vector < matrix.getWidth(); ++vector){
-            if(matrix[vector][3] == nextZ){
-                vectors.emplace_back(MathsVector{matrix[vector][0], matrix[vector][1], matrix[vector][2]});
-            }
+        for(int vector = layerStart; vector < layerEnd; ++vector){
+            vectors.emplace_back(MathsVector{matrix[vector][0], matrix[vector][1], matrix[vector][2]});
         }
 
     return vectors;

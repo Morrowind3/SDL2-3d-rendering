@@ -7,19 +7,14 @@ Spaceship::Spaceship(const MathsVector& pos, std::string _colour): Entity(std::m
                        {30, 50, 50, 30, 30, 50, 50, 30},
                        {50, 50, 30, 30, 50, 50, 30, 30},
                        {10, 10, 10, 10, 40, 40, 40, 40},
-                       {1,   1,  1,  1,  2,  2,  2, 2}}};
-
-    for(auto& coord : matrix.getRow(0)){
-        coord = coord + pos.x;
-    }
-    for(auto& coord : matrix.getRow(1)){
-        coord = coord + pos.y;
-    }
-    for(auto& coord : matrix.getRow(2)){
-        coord = coord + pos.z;
-    }
+                       {1,   1,  1,  1,  1,  1,  1, 1}}};
 
     mesh.setMatrix(std::move(matrix));
+    mesh.zLayers = {4, 8};
+
+    Transform t;
+    t.translate(pos);
+    t.apply(mesh.matrix);
 }
 
 void Spaceship::onUpdate() {
@@ -64,7 +59,7 @@ void Spaceship::handleInput(){
     if(moveLeft) t.translate({-1,0,0});
     if(moveRight) t.translate({1,0,0});
     if(moveForward) t.translate({0,0, 1});
-    if(moveBackward) t.translate({0,0,1});
+    if(moveBackward) t.translate({0,0,-1});
 
     int rotationSpeed = 1;
     if(inverseRotation) rotationSpeed *= -1;

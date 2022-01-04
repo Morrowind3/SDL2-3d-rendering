@@ -5,13 +5,16 @@ void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
     RenderingStrategy::drawAxis(centerX, centerY, width, height, guideMarkDistance);
 }
 
-void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-    std::shared_ptr<double> lastZIndex = std::make_unique<double>(std::numeric_limits<double>::lowest());
-
+void FrontView::drawMesh(const Mesh& mesh, const MathsVector& origin) {
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, lastZIndex);
+    std::vector<MathsVector> vectors;
+    int zLayer = 0;
+    int layerStart = 0;
+    int layerEnd = mesh.zLayers[zLayer];
+    while(zLayer < mesh.zLayers.size()){
+        vectors  = extractVectors(mesh.matrix, layerStart, layerEnd);
 
-    while(!vectors.empty()){
+        //draw Z-layer
         for(int i = 0; i < vectors.size(); ++i){
             double centerAdjustedX = origin.x + vectors[i].x;
             double centerAdjustedY = origin.y - vectors[i].y;
@@ -19,7 +22,7 @@ void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             double nextCenterAdjustedY = origin.y - vectors[(i+1) % vectors.size()].y;
             SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedY, nextCenterAdjustedX, nextCenterAdjustedY);
         }
-
+        //connect to last Z-layer
         for(int i = 0; i < prevVectors.size() && !vectors.empty(); ++i){
             double centerAdjustedX = origin.x + vectors[i % vectors.size()].x;
             double centerAdjustedY = origin.y - vectors[i % vectors.size()].y;
@@ -28,7 +31,8 @@ void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedY, prevCenterAdjustedX, prevCenterAdjustedY);
         }
         prevVectors = vectors;
-        vectors = extractVectors(matrix, lastZIndex);
+        layerStart = mesh.zLayers[zLayer++];
+        layerEnd = mesh.zLayers[zLayer];
     }
 
 }

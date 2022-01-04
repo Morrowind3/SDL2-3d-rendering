@@ -73,19 +73,17 @@ int main(int argc, char *args[])
         SDL_RenderClear(SDL);
 
         Transform t;
+
         renderer->setPerspective(Rendering::Perspective::FRONT);
         switchViewPort(SDL, &bottomViewport);
-        world.transformAll(t);
         world.RenderObjects();
 
         renderer->setPerspective(Rendering::Perspective::TOP);
-        switchViewPort(SDL, &topLeftViewport);
-        world.transformAll(t);
+        switchViewPort(SDL, &topRightViewport);
         world.RenderObjects();
 
         renderer->setPerspective(Rendering::Perspective::SIDE);
-        switchViewPort(SDL, &topRightViewport);
-        world.transformAll(t);
+        switchViewPort(SDL, &topLeftViewport);
         world.RenderObjects();
 
         SDL_RenderPresent(SDL);
