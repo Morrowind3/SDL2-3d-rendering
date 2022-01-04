@@ -1,7 +1,3 @@
-//
-// Created by Morrowind3 on 03/01/2022.
-//
-
 #ifndef THREEDEE_SPACESHIP_H
 #define THREEDEE_SPACESHIP_H
 

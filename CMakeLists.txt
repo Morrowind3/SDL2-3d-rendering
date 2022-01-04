@@ -7,7 +7,7 @@ link_directories(external/lib/x86)
 set(MATRIX_SOURCE  src/algebra/MathsVector.cpp src/algebra/Matrix.cpp src/algebra/InvalidMatrixDimensionsException.h src/algebra/Transform.cpp src/algebra/Transform.h )
 add_library(Matrices STATIC ${MATRIX_SOURCE})
 
-set(MODEL_SOURCE src/Model/Entities/Spaceship.cpp src/Model/Entities/Mesh.cpp src/Model/Entities/Entity.cpp src/Model/World.cpp src/input/Input.cpp src/input/InputRegistry.cpp src/input/KeyCode.hpp src/input/PressState.hpp)
+set(MODEL_SOURCE src/model/Entities/Spaceship.cpp src/model/Entities/Mesh.cpp src/model/Entities/Entity.cpp src/model/World.cpp src/input/Input.cpp src/input/InputRegistry.cpp src/input/KeyCode.hpp src/input/PressState.hpp)
 set(VIEW_SOURCE src/view/Rendering.cpp src/view/RenderingStrategies/RenderingStrategy.h
         src/view/RenderingStrategies/TopView.cpp src/view/RenderingStrategies/SideView.cpp
         src/view/RenderingStrategies/FrontView.cpp src/view/RenderingStrategies/RenderingStrategy.cpp  )
