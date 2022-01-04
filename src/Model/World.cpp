@@ -4,19 +4,23 @@
 #include "Entities/Spaceship.h"
 
 World::World(std::shared_ptr<Rendering> _rendering): rendering(std::move(_rendering)){
-    Entity ship = Spaceship{{40.0,40.0,40.0}, "DF00FE"};
-
-    entities.push_back(ship);
+    entities.push_back(std::make_shared<Spaceship>(MathsVector{40.0,40.0,40.0}, "DF00FE"));
 }
 
 void World::RenderObjects() {
     for(auto& entity: entities){
-        entity.render(*rendering);
+        entity->render(*rendering);
     }
 }
 
 void World::transformAll(Transform& transform) {
         for(auto& entity: entities){
-            entity.transform(transform);
+            entity->transform(transform);
         }
+}
+
+void World::onUpdate() {
+    for(auto& entity: entities){
+        entity->onUpdate();
+    }
 }

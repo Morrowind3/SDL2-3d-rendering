@@ -7,12 +7,14 @@
 
 
 #include "Entity.h"
-#include "../Rendering.h"
+#include "../../view/Rendering.h"
 
 class Spaceship : public Entity {
 public:
     Spaceship(const MathsVector& pos, std::string _colour);
+    void onUpdate() override;
 private:
+    void handleInput();
 };
 
 

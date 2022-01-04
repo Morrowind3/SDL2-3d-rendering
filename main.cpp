@@ -5,7 +5,7 @@
 
 #include "src/view/Rendering.h"
 #include "src/algebra/Transform.h"
-#include "src/view/World.h"
+#include "src/Model/World.h"
 
 #define SCREEN_WIDTH    1200
 #define SCREEN_HEIGHT   1000
@@ -50,55 +50,6 @@ SDL_Renderer* launch_renderer(SDL_Window* window) {
     return renderer;
 }
 
-
-void processEvents(SDL_Event& event, Transform& transform){
-    SDL_PollEvent(&event);
-    switch(event.type){
-        case SDL_QUIT:
-            quit = true;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-                //scale
-                case SDLK_KP_8: transform.scale({1,1.5,1});
-                    break;
-                case SDLK_KP_2: transform.scale({1,0.5,1});
-                    break;
-                case SDLK_KP_4: transform.scale({0.5,1,1});
-                    break;
-                case SDLK_KP_6: transform.scale({1.5,1,1});
-                    break;
-                case SDLK_KP_7: transform.scale({1,1,0.5});
-                    break;
-                case SDLK_KP_9: transform.scale({1,1,1.5});
-                    break;
-                case SDLK_KP_1: transform.scale({1.5,1.5,1.5});
-                    break;
-                case SDLK_KP_3: transform.scale({0.5,0.5,0.5});
-                    break;
-
-
-                //translate
-                case SDLK_w: transform.translate({0,1,0});
-                    break;
-                case SDLK_a:transform.translate({-1,0,0});
-                    break;
-                case SDLK_s: transform.translate({0,-1,0});
-                    break;
-                case SDLK_d: transform.translate({1,0,0});
-                    break;
-                case SDLK_q: transform.translate({0,0,-1});
-                    break;
-                case SDLK_e: transform.translate({0,0,1});
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
-}
-
 int main(int argc, char *args[])
 {
     SDL_Window *window = launch_window();
@@ -111,17 +62,17 @@ int main(int argc, char *args[])
     static const SDL_Rect topLeftViewport {0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
     static const SDL_Rect topRightViewport {SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
     static const SDL_Rect bottomViewport {0, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT /2};
-    
+
     while(!quit)
     {
         SDL_Delay(10);
-        Transform t;
-        SDL_Event event;
-        processEvents(event, t);
+        Input::getInstance().update();
+        world.onUpdate();
 
         SDL_SetRenderDrawColor(SDL, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(SDL);
 
+        Transform t;
         renderer->setPerspective(Rendering::Perspective::FRONT);
         switchViewPort(SDL, &bottomViewport);
         world.transformAll(t);
@@ -138,6 +89,10 @@ int main(int argc, char *args[])
         world.RenderObjects();
 
         SDL_RenderPresent(SDL);
+
+//        SDL_Event event;
+//        SDL_PollEvent(&event);
+//        if(event.type == SDL_QUIT) quit = true;
     }
 
     SDL_DestroyRenderer(SDL);

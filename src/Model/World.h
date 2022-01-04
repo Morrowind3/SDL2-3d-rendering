@@ -13,10 +13,11 @@
 class World {
 public:
     explicit World(std::shared_ptr<Rendering> _rendering);
+    void onUpdate();
     void RenderObjects();
     void transformAll(Transform& transform);
 private:
-    std::vector<Entity> entities;
+    std::vector<std::shared_ptr<Entity>> entities;
     std::shared_ptr<Rendering> rendering;
 };
 
