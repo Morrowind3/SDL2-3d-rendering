@@ -1,5 +1,6 @@
 #include "TopView.h"
 #include <limits>
+#include <bits/stdc++.h>
 
 void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -11,14 +12,14 @@ void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
 }
 
 void TopView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-    double lastZ = std::numeric_limits<double>::lowest();
+    std::shared_ptr<double> lastZIndex = std::make_unique<double>(std::numeric_limits<double>::lowest());
+
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
+    std::vector<MathsVector> vectors = extractVectors(matrix, lastZIndex);
 
     while(!vectors.empty()){
-        vectors = extractVectors(matrix, lastZ);
-        lastZ = vectors.empty() ? 0 : vectors[0].z;
 
+        //draw Z-layer
         for(int i = 0; i < vectors.size(); ++i){
             double centerAdjustedX = origin.x + vectors[i].x;
             double centerAdjustedZ = origin.z - vectors[i].z;
@@ -27,14 +28,16 @@ void TopView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             SDL_RenderDrawLineF(renderer, nextCenterAdjustedX, nextCenterAdjustedZ, centerAdjustedX, centerAdjustedZ);
         }
 
+        //connect to last Z-layer
         for(int i = 0; i < prevVectors.size() && !vectors.empty(); ++i){
             double centerAdjustedX = origin.x + vectors[i % vectors.size()].x;
-            double centerAdjestedZ = origin.z - vectors[i % vectors.size()].z;
+            double centerAdjustedZ = origin.z - vectors[i % vectors.size()].z;
             double prevCenterAdjustedX = origin.x + prevVectors[i % prevVectors.size()].x;
             double prevCenterAdjustedZ = origin.z - prevVectors[i % prevVectors.size()].z;
-            SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjestedZ, prevCenterAdjustedX, prevCenterAdjustedZ);
+            SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedZ, prevCenterAdjustedX, prevCenterAdjustedZ);
         }
         prevVectors = vectors;
+        vectors = extractVectors(matrix, lastZIndex);
     }
 }
 

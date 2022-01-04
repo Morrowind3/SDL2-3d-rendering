@@ -7,7 +7,7 @@ Spaceship::Spaceship(const MathsVector& pos, std::string _colour): Entity(std::m
                        {30, 50, 50, 30, 30, 50, 50, 30},
                        {50, 50, 30, 30, 50, 50, 30, 30},
                        {10, 10, 10, 10, 40, 40, 40, 40},
-                       {1,   1,  1,  1,  1,  1,  1, 1}}};
+                       {1,   1,  1,  1,  2,  2,  2, 2}}};
 
     for(auto& coord : matrix.getRow(0)){
         coord = coord + pos.x;

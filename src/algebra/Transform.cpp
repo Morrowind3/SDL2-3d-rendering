@@ -47,7 +47,7 @@ void Transform::rotateY(double degrees) {
     double radius = (degrees * (M_PI/180));
     Matrix rotate { {
                             {cos(radius), 0, sin(radius), 0},
-                            {0, 0, 0, 0},
+                            {0, 1, 0, 0},
                             {-sin(radius),0 ,cos(radius), 0},
                             {0, 0, 0, 1}}};
     transformationMatrix = rotate * transformationMatrix;

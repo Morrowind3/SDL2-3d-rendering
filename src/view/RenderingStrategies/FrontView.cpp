@@ -6,14 +6,12 @@ void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
 }
 
 void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-    double lastZ = std::numeric_limits<double>::lowest();
+    std::shared_ptr<double> lastZIndex = std::make_unique<double>(std::numeric_limits<double>::lowest());
+
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
+    std::vector<MathsVector> vectors = extractVectors(matrix, lastZIndex);
 
     while(!vectors.empty()){
-        vectors = extractVectors(matrix, lastZ);
-        lastZ = vectors.empty() ? 0 : vectors[0].z;
-
         for(int i = 0; i < vectors.size(); ++i){
             double centerAdjustedX = origin.x + vectors[i].x;
             double centerAdjustedY = origin.y - vectors[i].y;
@@ -30,6 +28,7 @@ void FrontView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedY, prevCenterAdjustedX, prevCenterAdjustedY);
         }
         prevVectors = vectors;
+        vectors = extractVectors(matrix, lastZIndex);
     }
 
 }

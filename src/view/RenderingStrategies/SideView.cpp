@@ -1,15 +1,17 @@
 #include "SideView.h"
 #include <limits>
+#include <bits/stdc++.h>
+
 
 void SideView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
-    double lastZ = std::numeric_limits<double>::lowest();
+
+    std::shared_ptr<double> lastZIndex = std::make_unique<double>(std::numeric_limits<double>::lowest());
+
     std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors = extractVectors(matrix, lastZ);
+    std::vector<MathsVector> vectors = extractVectors(matrix, lastZIndex);
 
     while(!vectors.empty()){
-        vectors = extractVectors(matrix, lastZ);
-        lastZ = vectors.empty() ? 0 : vectors[0].z;
-
+        //draw Z-layer
         for(int i = 0; i < vectors.size(); ++i){
             double centerAdjustedZ = origin.z + vectors[i].z;
             double centerAdjustedY = origin.y - vectors[i].y;
@@ -17,14 +19,17 @@ void SideView::drawMatrix(const Matrix& matrix, const MathsVector& origin) {
             double nextCenterAdjustedY = origin.y - vectors[(i + 1) % vectors.size()].y;
             SDL_RenderDrawLineF(renderer, centerAdjustedZ, centerAdjustedY, nextCenterAdjustedZ, nextCenterAdjustedY);
         }
+
+        //connect to previous Z-layer
         for(int i = 0; i < prevVectors.size() && !vectors.empty(); ++i){
             double centerAdjustedZ = origin.z + vectors[i % vectors.size()].z;
             double centerAdjustedY = origin.y - vectors[i % vectors.size()].y;
-            double prevCenterAdjustedZ = origin.z + prevVectors[i % prevVectors.size()].z;
-            double prevCenterAdjustedY = origin.y - prevVectors[i % prevVectors.size()].y;
+            double prevCenterAdjustedZ = origin.z + prevVectors[i].z;
+            double prevCenterAdjustedY = origin.y - prevVectors[i].y;
             SDL_RenderDrawLineF(renderer, centerAdjustedZ, centerAdjustedY, prevCenterAdjustedZ, prevCenterAdjustedY);
         }
         prevVectors = vectors;
+        vectors = extractVectors(matrix, lastZIndex);
     }
 }
 
