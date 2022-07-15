@@ -75,16 +75,16 @@ int main(int argc, char *args[])
         Transform t;
 
         renderer->setPerspective(Rendering::Perspective::FRONT);
-        switchViewPort(SDL, &bottomViewport);
+      //  switchViewPort(SDL, &bottomViewport);
         world.RenderObjects();
 
-        renderer->setPerspective(Rendering::Perspective::TOP);
-        switchViewPort(SDL, &topRightViewport);
-        world.RenderObjects();
-
-        renderer->setPerspective(Rendering::Perspective::SIDE);
-        switchViewPort(SDL, &topLeftViewport);
-        world.RenderObjects();
+//        renderer->setPerspective(Rendering::Perspective::TOP);
+//        switchViewPort(SDL, &topRightViewport);
+//        world.RenderObjects();
+//
+//        renderer->setPerspective(Rendering::Perspective::SIDE);
+//        switchViewPort(SDL, &topLeftViewport);
+//        world.RenderObjects();
 
         SDL_RenderPresent(SDL);
 

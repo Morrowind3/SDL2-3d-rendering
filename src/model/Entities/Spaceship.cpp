@@ -5,13 +5,13 @@
 
 Spaceship::Spaceship(const MathsVector& pos, std::string _colour): Entity(std::move(_colour)) {
     Matrix matrix { {
-                       {30, 50, 50, 30, 30, 50, 50, 30},
-                       {50, 50, 30, 30, 50, 50, 30, 30},
-                       {10, 10, 10, 10, 40, 40, 40, 40},
-                       {1,   1,  1,  1,  1,  1,  1, 1}}};
+                       {30, 50, 50, 30, 30, 50, 50, 30, 45, 35},
+                       {50, 50, 30, 30, 50, 50, 30, 30, 30, 30},
+                       {10, 10, 10, 10, 40, 40, 40, 40, 70, 70},
+                       {1,   1,  1,  1,  1,  1,  1, 1, 1, 1}}};
 
     mesh.setMatrix(std::move(matrix));
-    mesh.zLayers = {4, 8};
+    mesh.zLayers = {4, 8, 10};
 
     Transform t;
     t.translate(pos);
