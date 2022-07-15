@@ -28,7 +28,7 @@ public:
     int getWidth() const;
     int getHeight() const;
     void resize(int columns, int rows);
-    std::vector<double> getRow(int row);
+    std::vector<double> getRow(int row) const;
 private:
     std::vector<FloatVector> matrix;
 };

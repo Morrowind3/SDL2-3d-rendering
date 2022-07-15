@@ -1,5 +1,4 @@
 #include "FrontView.h"
-#include <limits>
 
 void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
     RenderingStrategy::drawAxis(centerX, centerY, width, height, guideMarkDistance);

@@ -128,10 +128,10 @@ std::vector<double>& Matrix::operator[](int pos) {
 std::vector<double> Matrix::operator[](int pos) const {
     return matrix[pos];
 }
-std::vector<double> Matrix::getRow(int row) {
+std::vector<double> Matrix::getRow(int row) const {
     std::vector<double> rowVector;
     for(auto& column : matrix){
-        double& value = column.at(row);
+        const double& value = column.at(row);
         rowVector.emplace_back(value);
     }
     return rowVector;

@@ -1,6 +1,5 @@
 #include "TopView.h"
 #include <limits>
-#include <bits/stdc++.h>
 
 void TopView::drawVector(const MathsVector& vector, const MathsVector& origin) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

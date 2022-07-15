@@ -1,16 +1,17 @@
 #include "Spaceship.h"
 
 #include <utility>
+#include <iostream>
 
 Spaceship::Spaceship(const MathsVector& pos, std::string _colour): Entity(std::move(_colour)) {
     Matrix matrix { {
-                       {30, 50, 50, 30, 30, 50, 50, 30},
-                       {50, 50, 30, 30, 50, 50, 30, 30},
-                       {10, 10, 10, 10, 40, 40, 40, 40},
-                       {1,   1,  1,  1,  1,  1,  1, 1}}};
+                       {30, 50, 50, 30, 30, 50, 50, 30, 45, 35},
+                       {50, 50, 30, 30, 50, 50, 30, 30, 30, 30},
+                       {10, 10, 10, 10, 40, 40, 40, 40, 70, 70},
+                       {1,   1,  1,  1,  1,  1,  1, 1, 1, 1}}};
 
     mesh.setMatrix(std::move(matrix));
-    mesh.zLayers = {4, 8};
+    mesh.zLayers = {4, 8, 10};
 
     Transform t;
     t.translate(pos);
@@ -63,10 +64,11 @@ void Spaceship::handleInput(){
 
     int rotationSpeed = 1;
     if(inverseRotation) rotationSpeed *= -1;
-    if(rotateX)  t.rotateX(rotationSpeed);
-    if(rotateY) t.rotateY(rotationSpeed);
-    if(rotateZ) t.rotateZ(rotationSpeed);
+    if(rotateX)  t.rotateX(rotationSpeed, mesh.center);
+    if(rotateY) t.rotateY(rotationSpeed, mesh.center);
+    if(rotateZ) t.rotateZ(rotationSpeed, mesh.center);
 
     t.apply(mesh.matrix);
+    mesh.recalculateCentrepoint();
 }
 
