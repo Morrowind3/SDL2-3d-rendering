@@ -1,6 +1,5 @@
 #include "SideView.h"
 #include <limits>
-#include <bits/stdc++.h>
 
 
 void SideView::drawMesh(const Mesh& mesh, const MathsVector& origin) {

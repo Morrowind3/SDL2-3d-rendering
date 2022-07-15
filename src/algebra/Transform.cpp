@@ -43,6 +43,7 @@ void Transform::rotateX(double degrees) {
                     {0, 0, 0, 1}}};
     transformationMatrix = rotate * transformationMatrix;
 }
+
 void Transform::rotateY(double degrees) {
     double radius = (degrees * (M_PI/180));
     Matrix rotate { {
