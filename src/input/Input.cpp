@@ -18,10 +18,6 @@ void Input::registerEvents() {
 
 // Gets
 
-bool Input::anyKey() const {
-    return _registry.anyKeyRegistered();
-}
-
 bool Input::anyKeyUp() const {
     return _registry.anyKeyInState(PressState::RELEASED);
 }

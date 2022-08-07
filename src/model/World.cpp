@@ -4,7 +4,9 @@
 #include "Entities/Spaceship.h"
 
 World::World(std::shared_ptr<Rendering> _rendering): rendering(std::move(_rendering)){
-    entities.push_back(std::make_shared<Spaceship>(MathsVector{200.0,-200.0,-50}, "DF00FE"));
+    entities.push_back(std::make_shared<Spaceship>(MathsVector{200.0,-200.0,0}, "DF00FE"));
+
+
 }
 
 void World::RenderObjects() {
@@ -23,4 +25,5 @@ void World::onUpdate() {
     for(auto& entity: entities){
         entity->onUpdate();
     }
+    camera.onUpdate(entities);
 }

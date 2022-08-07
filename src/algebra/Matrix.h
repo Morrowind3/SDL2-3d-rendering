@@ -20,7 +20,6 @@ public:
     Matrix operator+ (const Matrix& vector) const;
     Matrix operator- (const Matrix& vector);
     Matrix operator* (const Matrix& other);
-    MathsVector operator* (const MathsVector& vector); //Can return both a Matrix and a vector thanks to implicit conversion. 
     std::vector<double>& operator[](int pos);
     std::vector<double> operator[](int pos) const;
     void placeAt(int column, int row, double value);

@@ -20,7 +20,6 @@ public:
 protected:
     SDL_Renderer* renderer;
     static std::vector<MathsVector> extractVectors(const Matrix& matrix, int layerStart, int layerEnd);
-    static std::vector<MathsVector> extractVectors2D(const Matrix& matrix);
     double centerX = 0;
     double centerY = 0;
     double centerZ = 0;

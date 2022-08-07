@@ -2,6 +2,7 @@
 #include "Rendering.h"
 #include "RenderingStrategies/TopView.h"
 #include "RenderingStrategies/SideView.h"
+#include "RenderingStrategies/CameraView.h"
 
 /* Geheugensteuntje
  * Matrix format
@@ -16,6 +17,7 @@
  *  Remember: Gaten in een model, vooral bij 2D, wordt vaak met een transparante texture gedaan, dus dit is prima.
  *
  */
+
 
 
 void Rendering::drawGrid(float cellWidth, float cellHeight, float dimension) {
@@ -57,6 +59,8 @@ void Rendering::setPerspective(Rendering::Perspective perspective) {
             break;
         case SIDE:  renderingStrategy = std::make_unique<SideView>(SideView{renderer, center});
             break;
+        case CAMERA: renderingStrategy = std::make_unique<CameraView>(CameraView{renderer, center});
+            break;
     }
 
 }
@@ -70,7 +74,6 @@ void Rendering::setColour(const std::string& colourCode) {
     sscanf_s(colourCode.c_str(), "%02x%02x%02x%02x", &red, &green, &blue, &alpha);
     SDL_SetRenderDrawColor(renderer, red, green, blue, SDL_ALPHA_OPAQUE);
 }
-
 
 
 

@@ -20,7 +20,6 @@
             // input
             void update();
             // Keyboard
-            [[nodiscard]] bool anyKey() const;
             [[nodiscard]] bool anyKeyUp() const;
             [[nodiscard]] bool anyKeyDown() const;
             [[nodiscard]] bool getKey(KeyCode code) const;

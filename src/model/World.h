@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "Entities/Entity.h"
+#include "../view/Camera.hpp"
 
 class World {
 public:
@@ -13,6 +14,7 @@ public:
     void RenderObjects();
     void transformAll(Transform& transform);
 private:
+    Camera camera {{1,-30,-100}, {0,0,0}};
     std::vector<std::shared_ptr<Entity>> entities;
     std::shared_ptr<Rendering> rendering;
 };

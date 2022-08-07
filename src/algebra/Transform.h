@@ -9,7 +9,8 @@ class Transform {
 public:
     Transform() = default;
     void apply(Matrix& matrix);
-    std::shared_ptr<Matrix> getTransformationMatrix();
+    void apply(MathsVector& matrix);
+    void adjustTransformationMatrix(Matrix otherMatrix);
 
     void rotateX(double degrees, const MathsVector& origin);
     void rotateY(double degrees, const MathsVector& origin);
@@ -20,6 +21,7 @@ public:
     void scale(const MathsVector& scalar, const MathsVector& origin);
     void scale(const MathsVector& scalar);
     void translate(const MathsVector& movement);
+    std::shared_ptr<Matrix> getTransformationMatrix();
 private:
     Matrix transformationMatrix { {{1, 0, 0, 0},
                                           {0, 1, 0, 0},

@@ -10,10 +10,10 @@
 class Rendering {
 public:
     enum Perspective{
-        TOP, FRONT, SIDE
+        TOP, FRONT, SIDE, CAMERA
     };
 
-    explicit Rendering(SDL_Renderer* _renderer) : renderer(_renderer) { };
+    explicit Rendering(SDL_Renderer* _renderer) : renderer(_renderer){};
 
     void setColour(const std::string& colourCode);
     void setPerspective (Perspective perspective);

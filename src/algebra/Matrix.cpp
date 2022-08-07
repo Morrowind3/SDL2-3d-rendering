@@ -19,7 +19,7 @@ Matrix::Matrix(const std::vector<FloatVector>& content) {
     }
 }
 Matrix::Matrix(MathsVector vector) {
-    matrix = {{vector.x, vector.y, vector.z}};
+    matrix = {{vector.x, vector.y, vector.z, 1}};
 }
 
 Matrix Matrix::operator+(const Matrix& other) const {
@@ -62,31 +62,6 @@ Matrix Matrix::operator*(const Matrix& other) {
     }
 
     return newMatrix;
-}
-
-MathsVector Matrix::operator*(const MathsVector& vector) {
-    if(getWidth() != 3) throwDimensionError("Multiplying Matrix of width " + std::to_string(getWidth()) + " with vector of height 3" );
-
-    double x,y,z;
-
-    for(int row = 0; row < getHeight(); ++row){
-        auto rowVector = getRow(row);
-        double newVal = 0;
-        newVal += rowVector[0] * vector.x;
-        newVal += rowVector[1] * vector.y;
-        newVal += rowVector[2] * vector.z;
-        switch(row){
-            case 0: x = newVal;
-            break;
-            case 1: y = newVal;
-            break;
-            case 2: z = newVal;
-            break;
-            default:
-                break;
-        }
-    }
-    return MathsVector{x,y,z};
 }
 
 double& Matrix::getAt(int x, int y) {

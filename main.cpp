@@ -5,10 +5,9 @@
 
 #include "src/view/Rendering.h"
 #include "src/algebra/Transform.h"
-#include "src/Model/World.h"
-
-#define SCREEN_WIDTH    1200
-#define SCREEN_HEIGHT   1000
+#include "src/model/World.h"
+#include "src/input/Input.hpp"
+#include "src/env.hpp"
 
 bool quit = false;
 
@@ -68,13 +67,12 @@ int main(int argc, char *args[])
         SDL_Delay(10);
         Input::getInstance().update();
         world.onUpdate();
-
         SDL_SetRenderDrawColor(SDL, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(SDL);
 
         Transform t;
 
-        renderer->setPerspective(Rendering::Perspective::FRONT);
+        renderer->setPerspective(Rendering::Perspective::CAMERA);
       //  switchViewPort(SDL, &bottomViewport);
         world.RenderObjects();
 
