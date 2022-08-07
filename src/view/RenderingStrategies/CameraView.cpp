@@ -2,8 +2,6 @@
 #include <iostream>
 #include "CameraView.h"
 
-#include "../../env.hpp"
-
 void CameraView::drawMesh(const Mesh& mesh, const MathsVector& origin) {
     std::vector<MathsVector> prevVectors;
     std::vector<MathsVector> vectors;
@@ -55,10 +53,14 @@ bool CameraView::pointIsInFrustrum(double point) const{
 }
 
 float CameraView::postCalculationsXAxis(const Matrix& matrix) {
-    return 20 + (matrix[0][0]/ matrix[0][3]) * 20;
+    return 20.0f + (matrix[0][0]/ matrix[0][3]) * 20;
 }
 
 float CameraView::postCalculationsYAxis(const Matrix& matrix) {
-    return 20 + (matrix[0][1] / matrix[0][3]) * 20;
+    return 20.0f + (matrix[0][1] / matrix[0][3]) * 20;
+}
+
+void CameraView::onUpdate() {
+    camera.onUpdate();
 }
 

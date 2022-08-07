@@ -3,7 +3,6 @@
 
 #include "../algebra/MathsVector.h"
 #include "../algebra/Matrix.h"
-#include "../model/Entities/Entity.h"
 
 class Camera {
 public:
@@ -15,7 +14,7 @@ public:
     double frustrumNear = 0.1;
     double frustrumFar = 1000;
 
-    void onUpdate(const std::vector<std::shared_ptr<Entity>>& entities);
+    void onUpdate();
     void move(double x, double y, double z);
 private:
     MathsVector _position;

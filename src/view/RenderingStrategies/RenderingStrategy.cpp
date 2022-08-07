@@ -3,17 +3,6 @@
 //
 
 #include "RenderingStrategy.h"
-#include <limits>
-
-std::vector<MathsVector> RenderingStrategy::extractVectors2D(const Matrix& matrix) {
-    std::vector<MathsVector> vectors;
-    vectors.reserve(matrix.getWidth());
-    for(int vector = 0; vector < matrix.getWidth(); ++vector){
-        vectors.emplace_back(MathsVector{matrix[vector][0], matrix[vector][1], matrix[vector][2]});
-    }
-    return vectors;
-}
-
 
 //Extracts vectors from a matrix to draw them. LastZ is used to only extract the next layer on the Z axis.
 std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix, int layerStart, int layerEnd) {
@@ -60,5 +49,9 @@ void RenderingStrategy::setCenter(const MathsVector& center) {
     centerX = center.x;
     centerY = center.y;
     centerZ = center.z;
+}
+
+void RenderingStrategy::onUpdate() {
+
 }
 

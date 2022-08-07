@@ -56,6 +56,7 @@ int main(int argc, char *args[])
 
     std::shared_ptr<Rendering> renderer = std::make_shared<Rendering>(SDL);
     renderer->setCenter({SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4});
+    renderer->setPerspective(Rendering::Perspective::CAMERA);
     World world {renderer};
 
     static const SDL_Rect topLeftViewport {0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
@@ -69,26 +70,9 @@ int main(int argc, char *args[])
         world.onUpdate();
         SDL_SetRenderDrawColor(SDL, 0, 0, 0, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(SDL);
-
-        Transform t;
-
-        renderer->setPerspective(Rendering::Perspective::CAMERA);
-      //  switchViewPort(SDL, &bottomViewport);
         world.RenderObjects();
 
-//        renderer->setPerspective(Rendering::Perspective::TOP);
-//        switchViewPort(SDL, &topRightViewport);
-//        world.RenderObjects();
-//
-//        renderer->setPerspective(Rendering::Perspective::SIDE);
-//        switchViewPort(SDL, &topLeftViewport);
-//        world.RenderObjects();
-
         SDL_RenderPresent(SDL);
-
-//        SDL_Event event;
-//        SDL_PollEvent(&event);
-//        if(event.type == SDL_QUIT) quit = true;
     }
 
     SDL_DestroyRenderer(SDL);

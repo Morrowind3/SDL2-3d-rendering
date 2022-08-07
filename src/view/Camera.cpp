@@ -3,6 +3,7 @@
 #include "Camera.hpp"
 #include <cmath>
 #include "../input/Input.hpp"
+#include "../algebra/Transform.h"
 
 Matrix Camera::getTransformationMatrix() const {
     MathsVector u{0, 1, 0};
@@ -31,7 +32,7 @@ Matrix Camera::getTransformationMatrix() const {
 void Camera::move(double x, double y, double z) {
     Transform transform;
     transform.translate({x, y, z});
-    Matrix positionMatrix{_position};
+    Matrix positionMatrix {_position};
     transform.apply(positionMatrix);
     _position = {positionMatrix[0][0], positionMatrix[0][1], positionMatrix[0][2]};
 }
@@ -50,7 +51,7 @@ Matrix Camera::getProjectionMatrix() const {
     return P;
 }
 
-void Camera::onUpdate(const std::vector<std::shared_ptr<Entity>>& entities) {
+void Camera::onUpdate() {
     Input& _input = Input::getInstance();
     //translate
     bool camLeft = _input.getKey(KeyCode::LEFT);

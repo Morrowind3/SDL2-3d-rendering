@@ -17,6 +17,7 @@ public:
     void drawVector(const MathsVector& vector){ drawVector(vector, {centerX, centerY, centerZ});};
     virtual void drawAxis(float width, float height, float guideMarkDistance) = 0;
     void setCenter(const MathsVector& center);
+    virtual void onUpdate();
 protected:
     SDL_Renderer* renderer;
     static std::vector<MathsVector> extractVectors(const Matrix& matrix, int layerStart, int layerEnd);

@@ -3,6 +3,7 @@
 #include "RenderingStrategies/TopView.h"
 #include "RenderingStrategies/SideView.h"
 #include "RenderingStrategies/CameraView.h"
+#include "RenderingStrategies/FrontView.h"
 
 /* Geheugensteuntje
  * Matrix format
@@ -34,7 +35,6 @@ void Rendering::drawGrid(float cellWidth, float cellHeight, float dimension) {
 
 void Rendering::setCenter(const MathsVector& _center) {
     center = _center;
-    renderingStrategy->setCenter(center);
 }
 
 void Rendering::drawVector(const MathsVector& vector, const MathsVector& origin) {
@@ -76,6 +76,8 @@ void Rendering::setColour(const std::string& colourCode) {
 }
 
 
-
+void Rendering::onUpdate() {
+    renderingStrategy->onUpdate();
+}
 
 
