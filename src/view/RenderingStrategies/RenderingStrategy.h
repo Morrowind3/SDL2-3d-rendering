@@ -19,6 +19,7 @@ public:
     void setCenter(const MathsVector& center);
     virtual void onUpdate();
 protected:
+    void drawMesh(const Mesh& matrix, const MathsVector& origin, char dimensionA, char dimensionB);
     SDL_Renderer* renderer;
     static std::vector<MathsVector> extractVectors(const Matrix& matrix, int layerStart, int layerEnd);
     double centerX = 0;

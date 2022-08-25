@@ -16,6 +16,7 @@ Spaceship::Spaceship(const MathsVector& pos, std::string _colour): Entity(std::m
 
     Transform t;
     t.translate(pos);
+    t.scale({3,3,3},pos);
     t.apply(mesh.matrix);
 }
 

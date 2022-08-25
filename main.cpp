@@ -56,7 +56,7 @@ int main(int argc, char *args[])
 
     std::shared_ptr<Rendering> renderer = std::make_shared<Rendering>(SDL);
     renderer->setCenter({SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 4});
-    renderer->setPerspective(Rendering::Perspective::CAMERA);
+    renderer->setPerspective(Rendering::Perspective::FRONT);
     World world {renderer};
 
     static const SDL_Rect topLeftViewport {0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2};

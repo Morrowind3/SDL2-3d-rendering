@@ -6,35 +6,7 @@ void FrontView::drawAxis(float width, float height, float guideMarkDistance) {
 
 
 void FrontView::drawMesh(const Mesh& mesh, const MathsVector& origin) {
-    std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors;
-    int zLayer = 0; //zLayer is a way of grouping vectors to connect them more cleanly.
-    int layerStart = 0;
-    int layerEnd = mesh.zLayers[zLayer];
-    while(zLayer < mesh.zLayers.size()){
-        vectors  = extractVectors(mesh.matrix, layerStart, layerEnd);
-
-        //draw Z-layer
-        for(int i = 0; i < vectors.size(); ++i){
-            double centerAdjustedX = origin.x + vectors[i].x;
-            double centerAdjustedY = origin.y - vectors[i].y;
-            double nextCenterAdjustedX = origin.x + vectors[(i+1) % vectors.size()].x;
-            double nextCenterAdjustedY = origin.y - vectors[(i+1) % vectors.size()].y;
-            SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedY, nextCenterAdjustedX, nextCenterAdjustedY);
-        }
-        //connect to last Z-layerW
-        for(int i = 0; i < prevVectors.size() && !vectors.empty(); ++i){
-            double centerAdjustedX = origin.x + vectors[i % vectors.size()].x;
-            double centerAdjustedY = origin.y - vectors[i % vectors.size()].y;
-            double prevCenterAdjustedX = origin.x + prevVectors[i % prevVectors.size()].x;
-            double prevCenterAdjustedY = origin.y - prevVectors[i % prevVectors.size()].y;
-            SDL_RenderDrawLineF(renderer, centerAdjustedX, centerAdjustedY, prevCenterAdjustedX, prevCenterAdjustedY);
-        }
-        prevVectors = vectors;
-        layerStart = mesh.zLayers[zLayer++];
-        layerEnd = mesh.zLayers[zLayer];
-    }
-
+    RenderingStrategy::drawMesh(mesh, origin, 'x', 'y');
 }
 
 void FrontView::drawVector(const MathsVector& vector, const MathsVector& origin) {

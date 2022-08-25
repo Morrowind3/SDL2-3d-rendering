@@ -17,9 +17,20 @@ struct MathsVector {
     MathsVector calculateCrossProduct(MathsVector &other) const;
     double calculateDotProduct(MathsVector &other) const ;
     MathsVector getUnitVector() const ;
+
+    double operator[](char dimension) const {
+        switch(dimension){
+            case 'x': return x;
+            case 'y': return y;
+            case 'z': return z;
+            default: return 0;
+        }
+    }
+
     double x;
     double y;
     double z;
+
 private:
     double getLength() const;
 };
