@@ -15,7 +15,7 @@ struct MathsVector {
     MathsVector operator- (const MathsVector& vector) const;
     MathsVector operator* (double scalar) const;
     MathsVector calculateCrossProduct(MathsVector &other) const;
-    double calculateDotProduct(MathsVector &other) const ;
+    float calculateDotProduct(MathsVector &other) const ;
     MathsVector getUnitVector() const ;
 
     double operator[](char dimension) const {
@@ -27,12 +27,12 @@ struct MathsVector {
         }
     }
 
-    double x;
-    double y;
-    double z;
+    float x;
+    float y;
+    float z;
 
 private:
-    double getLength() const;
+    float getLength() const;
 };
 
 

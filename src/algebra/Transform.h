@@ -9,15 +9,14 @@ class Transform {
 public:
     Transform() = default;
     void apply(Matrix& matrix);
-    void apply(MathsVector& matrix);
     void adjustTransformationMatrix(Matrix otherMatrix);
 
-    void rotateX(double degrees, const MathsVector& origin);
-    void rotateY(double degrees, const MathsVector& origin);
-    void rotateZ(double degrees, const MathsVector& origin);
-    void rotateX(double degrees);
-    void rotateY(double degrees);
-    void rotateZ(double degrees);
+    void rotateX(float degrees, const MathsVector& origin);
+    void rotateY(float degrees, const MathsVector& origin);
+    void rotateZ(float degrees, const MathsVector& origin);
+    void rotateX(float degrees);
+    void rotateY(float degrees);
+    void rotateZ(float degrees);
     void scale(const MathsVector& scalar, const MathsVector& origin);
     void scale(const MathsVector& scalar);
     void translate(const MathsVector& movement);

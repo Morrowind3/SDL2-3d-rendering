@@ -5,19 +5,44 @@
 #include <iostream>
 
 Spaceship::Spaceship(const MathsVector& pos, std::string _colour): Entity(std::move(_colour)) {
-    Matrix matrix { {
-                       {30, 50, 50, 30, 30, 50, 50, 30, 45, 35},
-                       {50, 50, 30, 30, 50, 50, 30, 30, 30, 30},
-                       {10, 10, 10, 10, 40, 40, 40, 40, 70, 70},
-                       {1,   1,  1,  1,  1,  1,  1, 1, 1, 1}}};
+    std::vector<MathsVector> noseLeft, noseRight, noseBottom;
+    std::vector<MathsVector> bodyLeft, bodyRight, bodyBottom;
+    std::vector<MathsVector> tailLeft, tailRight, tailBottom, tailFin, rear;
 
-    mesh.setMatrix(std::move(matrix));
-    mesh.zLayers = {4, 8, 10};
+    noseLeft = std::vector<MathsVector> {{0,0,50}, {25,25,50},{25,0,-10}};
+    noseRight = std::vector<MathsVector> {{25,25,50}, {25,0,-10},{50,0,50}};
+    noseBottom = std::vector<MathsVector> {{25,0,-10}, {0,0,50},{50,0,50}};
+
+    bodyLeft = std::vector<MathsVector> {{0,0,50}, {0,0,100},{25,25,100},{25,25,50}};
+    bodyRight = std::vector<MathsVector> {{50,0,50}, {50,0,100},{25,25,100},{25,25,50}};
+    bodyBottom = std::vector<MathsVector> {{0,0,50}, {50,0,50}, {50, 0, 100}, {0,0,100}};
+
+    tailLeft = std::vector<MathsVector> {{0,0,100}, {25,25,100},{-25,0,125}};
+    tailRight = std::vector<MathsVector> {{50,0,100}, {25,25,100},{75,0,125}};
+    tailBottom = std::vector<MathsVector> {{0,0,100}, {-25,0,125}, {75,0,125},{50,0,100}};
+    rear = std::vector<MathsVector> {{-25,0,125}, {25,25,100}, {75,0,125}};
+    tailFin = std::vector<MathsVector> {{25,25,100}, {25,50,100},{25,25,80}};
+
+    mesh.addPane(noseLeft);
+    mesh.addPane(noseRight);
+    mesh.addPane(noseBottom);
+    mesh.addPane(bodyLeft);
+    mesh.addPane(bodyRight);
+    mesh.addPane(bodyBottom);
+    mesh.addPane(tailLeft);
+    mesh.addPane(tailRight);
+    mesh.addPane(tailBottom);
+    mesh.addPane(rear);
+    mesh.addPane(tailFin);
+    mesh.r = 5;
+    mesh.g = 195;
+    mesh.b = 222;
+    mesh.a = 150;
 
     Transform t;
     t.translate(pos);
     t.scale({3,3,3},pos);
-    t.apply(mesh.matrix);
+    mesh.transform(t);
 }
 
 void Spaceship::onUpdate() {
@@ -57,20 +82,20 @@ void Spaceship::handleInput(){
     if(biggerZ) t.scale({1,1, 1.1});
     if(smallerZ) t.scale({1,1,0.9});
 
-    if(moveUp)  t.translate({0, 1, 0});
-    if(moveDown) t.translate({0,-1,0});
+    if(moveUp)  t.translate({0, -1, 0});
+    if(moveDown) t.translate({0,1,0});
     if(moveLeft) t.translate({-1,0,0});
     if(moveRight) t.translate({1,0,0});
     if(moveForward) t.translate({0,0, 1});
     if(moveBackward) t.translate({0,0,-1});
 
-    int rotationSpeed = 1;
+    float rotationSpeed = 1;
     if(inverseRotation) rotationSpeed *= -1;
     if(rotateX)  t.rotateX(rotationSpeed, mesh.center);
     if(rotateY) t.rotateY(rotationSpeed, mesh.center);
     if(rotateZ) t.rotateZ(rotationSpeed, mesh.center);
 
-    t.apply(mesh.matrix);
+    mesh.transform(t);
     mesh.recalculateCentrepoint();
 }
 

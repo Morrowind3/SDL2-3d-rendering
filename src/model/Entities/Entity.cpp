@@ -6,6 +6,6 @@ void Entity::render(Rendering& rendering) {
 }
 
 void Entity::transform(Transform& transform) {
-    transform.apply(mesh.matrix);
+    mesh.transform(transform);
 }
 

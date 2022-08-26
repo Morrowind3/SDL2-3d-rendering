@@ -9,7 +9,7 @@
 #include "MathsVector.h"
 #include <vector>
 
-using FloatVector = std::vector<double>;
+using FloatVector = std::vector<float>;
 
 class Matrix {
 public:
@@ -20,10 +20,10 @@ public:
     Matrix operator+ (const Matrix& vector) const;
     Matrix operator- (const Matrix& vector);
     Matrix operator* (const Matrix& other);
-    std::vector<double>& operator[](int pos);
-    std::vector<double> operator[](int pos) const;
+    std::vector<float>& operator[](int pos);
+    std::vector<float> operator[](int pos) const;
     void placeAt(int column, int row, double value);
-    double& getAt(int x, int y);
+    float& getAt(int x, int y);
     int getWidth() const;
     int getHeight() const;
     void resize(int columns, int rows);

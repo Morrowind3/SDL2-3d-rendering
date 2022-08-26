@@ -26,23 +26,23 @@ MathsVector MathsVector::calculateCrossProduct(MathsVector& other) const {
     };
 }
 
-double MathsVector::calculateDotProduct(MathsVector& other) const {
+float MathsVector::calculateDotProduct(MathsVector& other) const {
     return (this->x * other.x) + (this->y * other.y) + (this->z* other.z);
 
 }
-double MathsVector::getLength() const {
-    double a = x * x;
-    double b = y * y;
-    double c = z * z;
-    return sqrt(a + b + c);
+float MathsVector::getLength() const {
+    float a = x * x;
+    float b = y * y;
+    float c = z * z;
+    return std::sqrt(a + b + c);
 }
 
 MathsVector MathsVector::getUnitVector() const {
-    double length = getLength();
+    float length = getLength();
     if(length == 0) {
         return {0,0,0};
     }
-    return MathsVector(this->x / length, this->y / length, this->z / length);
+    return {this->x / length, this->y / length, this->z / length};
 }
 
 

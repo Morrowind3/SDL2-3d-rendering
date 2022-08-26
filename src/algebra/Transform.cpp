@@ -34,47 +34,47 @@ std::shared_ptr<Matrix> Transform::getTransformationMatrix() {
     return std::make_shared<Matrix>(transformationMatrix);
 }
 
-void Transform::rotateX(double degrees) {
-    double radius = (degrees * (M_PI/180));
+void Transform::rotateX(float degrees) {
+    float radius = (degrees * (M_PI/180));
     Matrix rotate { {
                     {1, 0, 0, 0},
-                    {0, cos(radius), -sin(radius), 0},
-                    {0, sin(radius), cos(radius), 0},
+                    {0, cosf(radius), -sinf(radius), 0},
+                    {0, sinf(radius), cosf(radius), 0},
                     {0, 0, 0, 1}}};
     transformationMatrix = rotate * transformationMatrix;
 }
 
-void Transform::rotateY(double degrees) {
-    double radius = (degrees * (M_PI/180));
+void Transform::rotateY(float degrees) {
+    float radius = (degrees * (M_PI/180));
     Matrix rotate { {
-                            {cos(radius), 0, sin(radius), 0},
+                            {cosf(radius), 0, sinf(radius), 0},
                             {0, 1, 0, 0},
-                            {-sin(radius),0 ,cos(radius), 0},
+                            {-sinf(radius),0 ,cosf(radius), 0},
                             {0, 0, 0, 1}}};
     transformationMatrix = rotate * transformationMatrix;
 }
-void Transform::rotateZ(double degrees) {
-    double radius = (degrees * (M_PI/180));
+void Transform::rotateZ(float degrees) {
+    float radius = (degrees * (M_PI/180));
     Matrix rotate { {
-                            {cos(radius), -sin(radius), 0, 0},
-                            {sin(radius), cos(radius),0 , 0},
+                            {cosf(radius), -sinf(radius), 0, 0},
+                            {sinf(radius), cosf(radius),0 , 0},
                             {0, 0, 1, 0},
                             {0, 0, 0, 1}}};
     transformationMatrix = rotate * transformationMatrix;
 }
 
-void Transform::rotateX(double degrees, const MathsVector& origin) {
+void Transform::rotateX(float degrees, const MathsVector& origin) {
     translate({origin.x*-1, origin.y*-1, origin.z*-1});
     rotateX(degrees);
     translate({origin.x, origin.y, origin.z});
 }
-void Transform::rotateY(double degrees, const MathsVector& origin) {
+void Transform::rotateY(float degrees, const MathsVector& origin) {
     translate({origin.x*-1, origin.y*-1, origin.z*-1});
     rotateY(degrees);
     translate({origin.x, origin.y, origin.z});
 }
 
-void Transform::rotateZ(double degrees, const MathsVector& origin) {
+void Transform::rotateZ(float degrees, const MathsVector& origin) {
     translate({origin.x*-1, origin.y*-1, origin.z*-1});
     rotateZ(degrees);
     translate({origin.x, origin.y, origin.z});

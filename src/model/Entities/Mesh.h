@@ -5,13 +5,19 @@
 #include <numeric>
 
 #include "../../algebra/Matrix.h"
+#include "../../algebra/Transform.h"
+#include "MeshPane.h"
 
 struct Mesh {
     Mesh() = default;
-    void setMatrix(Matrix matrix);
     MathsVector center {0,0,0};
-    Matrix matrix {4,4};
-    std::vector<int> zLayers; // The mesh will be connected on the Z-axis between each layer specified here. '4' will make 0-4 a layer, '8' 4-8 etc.
-    void recalculateCentrepoint();
+    void recalculateCentrepoint(); //TODO: I don't think this one is working perfectly
+    void addPane(const std::vector<MathsVector>& meshPane){
+        meshPanes.emplace_back(meshPane);
+    };
+    void transform(Transform& t);
+    std::vector<MeshPane> meshPanes;
+
+    int r, g, b, a;
 };
 #endif //THREEDEE_MESH_H

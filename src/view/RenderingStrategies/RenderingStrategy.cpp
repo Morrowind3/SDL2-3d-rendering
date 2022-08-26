@@ -2,7 +2,9 @@
 // Created by Morrowind3 on 02/01/2022.
 //
 
+#include <iostream>
 #include "RenderingStrategy.h"
+#include "../../../external/SDL2_gfx/SDL2_gfxPrimitives.h"
 
 //Extracts vectors from a matrix to draw them. LastZ is used to only extract the next layer on the Z axis.
 std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix, int layerStart, int layerEnd) {
@@ -12,39 +14,19 @@ std::vector<MathsVector> RenderingStrategy::extractVectors(const Matrix& matrix,
         for(int vector = layerStart; vector < layerEnd; ++vector){
             vectors.emplace_back(MathsVector{matrix[vector][0], matrix[vector][1], matrix[vector][2]});
         }
-
     return vectors;
 }
 
+//TODO: Still account for Z!
 void RenderingStrategy::drawMesh(const Mesh& mesh, const MathsVector& origin, char dimensionA, char dimensionB) {
-    std::vector<MathsVector> prevVectors;
-    std::vector<MathsVector> vectors;
-    int zLayer = 0; //zLayer is a way of grouping vectors to connect them more cleanly.
-    int layerStart = 0;
-    int layerEnd = mesh.zLayers[zLayer];
-    while(zLayer < mesh.zLayers.size()){
-        vectors  = extractVectors(mesh.matrix, layerStart, layerEnd);
+    Uint8 origRed,origGreen,origBlue,origAlpha;
+    SDL_GetRenderDrawColor(renderer,
+                           &origRed, &origGreen, &origBlue,
+                           &origAlpha);
 
-        //draw Z-layer
-        for(int i = 0; i < vectors.size(); ++i){
-            double centerAdjustedA = origin[dimensionA] + vectors[i][dimensionA];
-            double centerAdjustedB = origin[dimensionB] - vectors[i][dimensionB];
-            double nextCenterAdjustedA = origin[dimensionA] + vectors[(i + 1) % vectors.size()][dimensionA];
-            double nextCenterAdjustedB = origin[dimensionB] - vectors[(i+1) % vectors.size()][dimensionB];
-            SDL_RenderDrawLineF(renderer, centerAdjustedA, centerAdjustedB, nextCenterAdjustedA, nextCenterAdjustedB);
-        }
-        //connect to last Z-layerW
-        for(int i = 0; i < prevVectors.size() && !vectors.empty(); ++i){
-            double centerAdjustedA = origin[dimensionA] + vectors[i % vectors.size()][dimensionA];
-            double centerAdjustedB = origin[dimensionB] - vectors[i % vectors.size()][dimensionB];
-            double prevCenterAdjustedA = origin[dimensionA] + prevVectors[i % prevVectors.size()][dimensionA];
-            double prevCenterAdjustedB = origin[dimensionB] - prevVectors[i % prevVectors.size()][dimensionB];
-            SDL_RenderDrawLineF(renderer, centerAdjustedA, centerAdjustedB, prevCenterAdjustedA, prevCenterAdjustedB);
-        }
-        prevVectors = vectors;
-        layerStart = mesh.zLayers[zLayer++];
-        layerEnd = mesh.zLayers[zLayer];
 
+    for(MeshPane pane: mesh.meshPanes){
+        aaFilledPolygonRGBA(renderer, &pane.xPoints[0], &pane.yPoints[0], pane.xPoints.size(), mesh.r, mesh.g, mesh.b, mesh.a);
     }
 }
 
